@@ -1,8 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "roca.h"
+#include "nivelcueva.h"
+#include "nivelbarranco.h"
 #include <QKeyEvent>
-#include "totems.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -13,32 +14,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(scene);
 
     scene->setSceneRect(0,0,1000,600);
+    nivelActual = new NivelCueva(scene);
 
-    scene->addRect(0,500,1000,100);
-    roca = new Roca();
+    nivelActual->cargarNivel();
 
-    roca->setPos(50,460);
-
-    scene->addItem(roca);
-    fuerza=20;
-    Totems *totems1 = new Totems();
-    Totems *totems2 = new Totems();
-    Totems *totems3 = new Totems();
-
-    totems1->setPos(700,420);
-    totems2->setPos(750,420);
-    totems3->setPos(725,340);
-
-    scene->addItem(totems1);
-    scene->addItem(totems2);
-    scene->addItem(totems3);
 
 }
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Space)
     {
-        roca->lanzar(fuerza);
+        nivelActual->getRoca()->lanzar(fuerza);
     }
 
     if(event->key() == Qt::Key_Up)

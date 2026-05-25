@@ -3,9 +3,16 @@
 
 Roca::Roca()
 {
-    setRect(0,0,40,40);
+    QPixmap rocaImagen(":/imagenes/roca.png");
+
+    setPixmap(rocaImagen.scaled(60,60));
 
     velocidadX = 0;
+    velocidadY = 0;
+
+    gravedad = 0.4;
+
+    usarGravedad = false;
 
     timer = new QTimer(this);
 
@@ -22,7 +29,17 @@ void Roca::lanzar(float velocidad)
 
 void Roca::mover()
 {
-    setPos(x() + velocidadX, y());
+    if(usarGravedad)
+    {
+        velocidadY += gravedad;
+
+        setPos(x() + velocidadX,
+               y() + velocidadY);
+    }
+    else
+    {
+        setPos(x() + velocidadX, y());
+    }
     QList<QGraphicsItem*> colisiones = collidingItems();
 
     for(QGraphicsItem *item : colisiones)
@@ -41,4 +58,16 @@ void Roca::mover()
     {
         velocidadX = 0;
     }
+}
+void Roca::cambiarVelocidad(float nuevaVelocidad)
+{
+    velocidadX = nuevaVelocidad;
+}
+void Roca::lanzarParabolico(float vx, float vy)
+{
+    velocidadX = vx;
+
+    velocidadY = vy;
+
+    usarGravedad = true;
 }

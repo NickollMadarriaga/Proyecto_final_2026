@@ -1,5 +1,7 @@
 #include "totems.h"
 
 Totems::Totems() {
-    setRect(0,0,30,80);
+    QPixmap imagen(":/imagenes/Totem.png");
+
+    setPixmap(imagen.scaled(60,120));
 }

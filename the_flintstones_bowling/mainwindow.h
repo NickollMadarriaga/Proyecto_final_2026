@@ -7,6 +7,7 @@
 #include "roca.h"
 #include <QKeyEvent>
 #include <QGraphicsTextItem>
+#include "nivel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -28,8 +29,8 @@ protected:
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
-    Roca *roca;
     int puntaje;
+    Nivel *nivelActual;
 
     QGraphicsTextItem *textoPuntaje;
 

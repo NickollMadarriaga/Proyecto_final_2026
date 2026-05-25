@@ -2,10 +2,11 @@
 #define ROCA_H
 
 #include <QObject>
-#include <QGraphicsEllipseItem>
+#include <QGraphicsPixmapItem>
 #include <QTimer>
+#include <QPixmap>
 
-class Roca : public QObject, public QGraphicsEllipseItem
+class Roca : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
@@ -13,12 +14,19 @@ public:
     explicit Roca();
 
     void lanzar(float velocidad);
+    void cambiarVelocidad(float nuevaVelocidad);
+    void lanzarParabolico(float vx, float vy);
 
 public slots:
     void mover();
 
 private:
     float velocidadX;
+    float velocidadY;
+
+    float gravedad;
+
+    bool usarGravedad;
 
     QTimer *timer;
 };

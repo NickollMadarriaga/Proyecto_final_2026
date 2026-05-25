@@ -1,0 +1,12 @@
+release/dino.o
+release/main.o
+release/mainwindow.o
+release/nivel.o
+release/nivelbarranco.o
+release/nivelcueva.o
+release/roca.o
+release/totems.o
+release/qrc_resources.o
+release/moc_dino.o
+release/moc_mainwindow.o
+release/moc_roca.o

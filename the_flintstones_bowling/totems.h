@@ -1,9 +1,9 @@
 #ifndef TOTEMS_H
 #define TOTEMS_H
 
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 
-class Totems : public QGraphicsRectItem
+class Totems : public QGraphicsPixmapItem
 {
 public:
     Totems();
