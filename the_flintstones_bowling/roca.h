@@ -16,11 +16,13 @@ public:
     void lanzar(float velocidad);
     void cambiarVelocidad(float nuevaVelocidad);
     void lanzarParabolico(float vx, float vy);
+    void activarSuperRoca();
 
 public slots:
     void mover();
 
 private:
+    bool superRoca;
     float velocidadX;
     float velocidadY;
 

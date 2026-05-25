@@ -7,6 +7,7 @@ class Totems : public QGraphicsPixmapItem
 {
 public:
     Totems();
+    bool derribado = false;
 };
 
 #endif // TOTEMS_H

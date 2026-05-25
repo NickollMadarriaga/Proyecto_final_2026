@@ -8,6 +8,7 @@
 #include <QKeyEvent>
 #include <QGraphicsTextItem>
 #include "nivel.h"
+#include <QGraphicsLineItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,9 +32,9 @@ private:
     QGraphicsScene *scene;
     int puntaje;
     Nivel *nivelActual;
-
+    QGraphicsLineItem *lineaPunteria;
     QGraphicsTextItem *textoPuntaje;
 
-    float fuerza;
+    int fuerza = 20;
 };
 #endif // MAINWINDOW_H

@@ -13,6 +13,7 @@ Roca::Roca()
     gravedad = 0.4;
 
     usarGravedad = false;
+    superRoca = false;
 
     timer = new QTimer(this);
 
@@ -46,8 +47,10 @@ void Roca::mover()
     {
         Totems *totems = dynamic_cast<Totems*>(item);
 
-        if(totems)
+        if(totems && !totems->derribado)
         {
+            totems->derribado = true;
+
             totems->setRotation(90);
         }
     }
@@ -57,6 +60,14 @@ void Roca::mover()
     if(velocidadX < 0.1)
     {
         velocidadX = 0;
+    }
+    if(abs(velocidadX) < 0.5 && superRoca)
+    {
+        superRoca = false;
+
+        QPixmap rocaImagen(":/imagenes/roca.png");
+
+        setPixmap(rocaImagen.scaled(60,60));
     }
 }
 void Roca::cambiarVelocidad(float nuevaVelocidad)
@@ -70,4 +81,12 @@ void Roca::lanzarParabolico(float vx, float vy)
     velocidadY = vy;
 
     usarGravedad = true;
+}
+void Roca::activarSuperRoca()
+{
+    superRoca = true;
+
+    QPixmap rocaImagen(":/imagenes/roca.png");
+
+    setPixmap(rocaImagen.scaled(100,100));
 }

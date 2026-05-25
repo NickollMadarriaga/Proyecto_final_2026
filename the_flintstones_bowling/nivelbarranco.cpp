@@ -31,10 +31,15 @@ void NivelBarranco::cargarNivel()
     roca->setPos(50,460);
 
     scene->addItem(roca);
+    totemsRestantes = 3;
 
     Totems *totem1 = new Totems();
     Totems *totem2 = new Totems();
     Totems *totem3 = new Totems();
+
+    listaTotems.push_back(totem1);
+    listaTotems.push_back(totem2);
+    listaTotems.push_back(totem3);
 
     totem1->setPos(650,270);
     totem2->setPos(850,170);
