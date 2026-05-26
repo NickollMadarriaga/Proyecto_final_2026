@@ -11,7 +11,8 @@ Dino::Dino(Roca *rocaRef)
 
     setPixmap(imagen.scaled(100,100));
 
-    velocidad = 2;
+    velocidad = 1.5;
+    yaGolpeo = false;
 
     alerta = false;
 
@@ -30,36 +31,24 @@ void Dino::mover()
     float dy = roca->y() - y();
 
     float distancia = sqrt(dx*dx + dy*dy);
-    if(distancia < 80)
-    {
-        roca->cambiarVelocidad(-5);
-    }
 
-    if(distancia < 200)
+    if(distancia < 150)
     {
-        alerta = true;
-    }
-    else
-    {
-        alerta = false;
-    }
-
-    if(alerta)
-    {
-        setPos(x() - 5, y());
-    }
-    else
-    {
-        setPos(x() + velocidad, y());
-
-        if(x() > 900)
+        if(dx > 0)
         {
-            velocidad *= -1;
+            setPos(x() + velocidad, y());
+        }
+        else
+        {
+            setPos(x() - velocidad, y());
         }
 
-        if(x() < 600)
+        if(distancia < 80 && !yaGolpeo)
         {
-            velocidad *= -1;
+            yaGolpeo = true;
+
+            roca->cambiarVelocidad(-3);
         }
+
     }
 }

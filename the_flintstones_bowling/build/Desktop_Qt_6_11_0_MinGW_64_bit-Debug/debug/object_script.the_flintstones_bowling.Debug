@@ -1,12 +1,16 @@
 debug/dino.o
+debug/juegobolos.o
 debug/main.o
 debug/mainwindow.o
 debug/nivel.o
 debug/nivelbarranco.o
 debug/nivelcueva.o
+debug/pedropicapiedra.o
+debug/personaje.o
 debug/roca.o
 debug/totems.o
 debug/qrc_resources.o
-debug/moc_dino.o
 debug/moc_mainwindow.o
+debug/moc_pedropicapiedra.o
+debug/moc_personaje.o
 debug/moc_roca.o

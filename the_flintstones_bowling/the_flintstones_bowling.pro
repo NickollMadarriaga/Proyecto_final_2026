@@ -8,20 +8,26 @@ CONFIG += c++17
 
 SOURCES += \
     dino.cpp \
+    juegobolos.cpp \
     main.cpp \
     mainwindow.cpp \
     nivel.cpp \
     nivelbarranco.cpp \
     nivelcueva.cpp \
+    pedropicapiedra.cpp \
+    personaje.cpp \
     roca.cpp \
     totems.cpp
 
 HEADERS += \
     dino.h \
+    juegobolos.h \
     mainwindow.h \
     nivel.h \
     nivelbarranco.h \
     nivelcueva.h \
+    pedropicapiedra.h \
+    personaje.h \
     roca.h \
     totems.h
 

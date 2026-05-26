@@ -7,6 +7,7 @@
 #include "roca.h"
 #include <QKeyEvent>
 #include <QGraphicsTextItem>
+#include <QPushButton>
 #include "nivel.h"
 #include <QGraphicsLineItem>
 
@@ -34,6 +35,9 @@ private:
     Nivel *nivelActual;
     QGraphicsLineItem *lineaPunteria;
     QGraphicsTextItem *textoPuntaje;
+    int tirosRestantes = 3;
+    void mostrarMenu();
+    QPushButton *botonJugar;
 
     int fuerza = 20;
 };

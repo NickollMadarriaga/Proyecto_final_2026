@@ -2,7 +2,7 @@
 
 #include "roca.h"
 #include "totems.h"
-
+#include "pedropicapiedra.h"
 #include <QPixmap>
 
 NivelCueva::NivelCueva(QGraphicsScene *scene)
@@ -15,7 +15,7 @@ void NivelCueva::cargarNivel()
 {
     scene->clear();
 
-    QPixmap fondo(":/images/fondo.png");
+    QPixmap fondo(":/imagenes/fondo.png");
 
     scene->setBackgroundBrush(fondo);
 

@@ -4,13 +4,11 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
-
 #include "roca.h"
+#include "personaje.h"
 
-class Dino : public QObject, public QGraphicsPixmapItem
+class Dino : public Personaje
 {
-    Q_OBJECT
-
 public:
     explicit Dino(Roca *rocaRef);
 
@@ -25,6 +23,7 @@ private:
     float velocidad;
 
     bool alerta;
+    bool yaGolpeo;
 };
 
 #endif // DINO_H

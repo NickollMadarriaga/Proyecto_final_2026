@@ -3,7 +3,7 @@
 #include "roca.h"
 #include "totems.h"
 #include "dino.h"
-
+#include "pedropicapiedra.h"
 #include <QPixmap>
 
 NivelBarranco::NivelBarranco(QGraphicsScene *scene)
@@ -16,7 +16,7 @@ void NivelBarranco::cargarNivel()
 {
     scene->clear();
 
-    QPixmap fondo(":/images/fondo2.png");
+    QPixmap fondo(":/imagenes/fondo2.png");
 
     scene->setBackgroundBrush(fondo);
 
@@ -54,4 +54,10 @@ void NivelBarranco::cargarNivel()
     dino->setPos(600,400);
 
     scene->addItem(dino);
+    PedroPicapiedra *fred =
+        new PedroPicapiedra();
+
+    fred->setPos(0,380);
+
+    scene->addItem(fred);
 }

@@ -4,5 +4,6 @@
         <file>imagenes/roca.png</file>
         <file>imagenes/Totem.png</file>
         <file>imagenes/dino.png</file>
+        <file>imagenes/fondo2.png</file>
     </qresource>
 </RCC>
