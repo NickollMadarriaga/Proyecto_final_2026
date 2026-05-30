@@ -1,63 +1,121 @@
 #include "nivelbarranco.h"
-
-#include "roca.h"
-#include "totems.h"
-#include "dino.h"
-#include "pedropicapiedra.h"
 #include <QPixmap>
+#include <QPen>
+#include <QBrush>
+#include <QColor>
+#include <QTimer>
 
 NivelBarranco::NivelBarranco(QGraphicsScene *scene)
     : Nivel(scene)
 {
-
+    nombre   = "Nivel 2 - El Barranco";
+    gravedad = 0.4f;
+    Pedro     = nullptr;
+    dino     = nullptr;
 }
 
 void NivelBarranco::cargarNivel()
 {
     scene->clear();
+    listaTotems.clear();
+    plataformas.clear();
 
     QPixmap fondo(":/imagenes/fondo2.png");
+    if (!fondo.isNull())
+        scene->setBackgroundBrush(fondo.scaled(1000, 600));
+    else
+        scene->setBackgroundBrush(QBrush(QColor(50, 80, 120)));
 
-    scene->setBackgroundBrush(fondo);
+    QGraphicsRectItem *suelo = scene->addRect(0, 550, 1000, 50,
+                                              QPen(Qt::NoPen), QBrush(QColor(80, 60, 30)));
+    Q_UNUSED(suelo);
 
-    scene->addRect(0,550,1000,50);
-
-    scene->addRect(600,350,200,20);
-
-    scene->addRect(800,250,150,20);
+    crearPlataformas();
 
     roca = new Roca();
-
-    roca->setPos(50,460);
-
+    roca->setPos(50, 460);
     scene->addItem(roca);
-    totemsRestantes = 3;
 
-    Totems *totem1 = new Totems();
-    Totems *totem2 = new Totems();
-    Totems *totem3 = new Totems();
-
-    listaTotems.push_back(totem1);
-    listaTotems.push_back(totem2);
-    listaTotems.push_back(totem3);
-
-    totem1->setPos(650,270);
-    totem2->setPos(850,170);
-    totem3->setPos(750,420);
-
-    scene->addItem(totem1);
-    scene->addItem(totem2);
-    scene->addItem(totem3);
-
-    Dino *dino = new Dino(roca);
-
-    dino->setPos(600,400);
-
-    scene->addItem(dino);
-    PedroPicapiedra *fred =
-        new PedroPicapiedra();
-
-    fred->setPos(0,380);
-
+    Pedro = new PedroPicapiedra();
+    Pedro->setPos(0, 370);
+    Pedro->rocaRef = roca;
     scene->addItem(fred);
+
+    colocarTotems();
+
+    dino = new Dino(roca);
+    dino->setPos(550, 460);
+    scene->addItem(dino);
+
+    configurarFisica();
+}
+
+void NivelBarranco::crearPlataformas()
+{
+    // Plataformas a diferentes alturas según el nivel
+    struct PlataformaInfo { int x, y, w, h; };
+    QVector<PlataformaInfo> infos = {
+        {300, 430, 180, 18},   // Plataforma baja-izquierda
+        {550, 340, 160, 18},   // Plataforma media
+        {750, 240, 160, 18},   // Plataforma alta
+        {420, 250, 120, 18},   // Plataforma extra media-alta
+    };
+
+    for (auto &info : infos) {
+        QGraphicsRectItem *plat = scene->addRect(
+            info.x, info.y, info.w, info.h,
+            QPen(QColor(60, 40, 10), 2),
+            QBrush(QColor(110, 75, 35)));
+        plataformas.append(plat);
+    }
+}
+
+void NivelBarranco::colocarTotems()
+{
+    // Pinos distribuidos en las plataformas
+    QVector<QPointF> posiciones = {
+        {330,  305},   // sobre plataforma 430
+        {460,  405},   // sobre plataforma 430 derecha
+        {590,  215},   // sobre plataforma 340
+        {780,  115},   // sobre plataforma 240 (más difícil)
+        {440,  125},   // sobre plataforma alta 250
+    };
+
+    totemsRestantes = posiciones.size();
+
+    for (const QPointF &pos : posiciones) {
+        Totems *totems = new Totems();
+        totems->setPos(pos);
+        listaTotems.append(totems);
+        scene->addItem(totems);
+    }
+}
+
+void NivelBarranco::configurarFisica()
+{
+    // Nivel 2: usa gravedad y movimiento parabólico
+    if (roca) roca->usarGravedad = true;
+}
+
+void NivelBarranco::actualizarFisica()
+{
+    if (!roca || !roca->estaActiva) return;
+
+    // Colisión roca con plataformas
+    for (QGraphicsRectItem *plat : plataformas) {
+        QRectF rTotems = roca->mapToScene(roca->boundingRect()).boundingRect();
+        QRectF rPlat = plat->sceneBoundingRect();
+
+        if (rTotems.intersects(rPlat) && roca->velocidadY > 0) {
+            roca->setY(rPlat.top() - roca->boundingRect().height());
+            roca->velocidadY = 0;
+            // La roca rueda sobre la plataforma con fricción
+            roca->velocidadX *= 0.985f;
+        }
+    }
+}
+
+void NivelBarranco::avance(int fase)
+{
+    Q_UNUSED(fase);
 }
