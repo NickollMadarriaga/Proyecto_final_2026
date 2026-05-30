@@ -4,33 +4,45 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
-#include <QPixmap>
 
 class Roca : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
-
 public:
-    explicit Roca();
+    explicit Roca(QObject *parent = nullptr);
 
+    // Métodos de lanzamiento
     void lanzar(float velocidad);
-    void cambiarVelocidad(float nuevaVelocidad);
     void lanzarParabolico(float vx, float vy);
-    void activarSuperRoca();
 
-public slots:
+
+    bool colisiona();
+
+    // Habilidades de Fred
+    void activarSuperRoca();     // "Grito de Guerra"
+    void cambiarVelocidad(float nuevaVelocidad);
+
+    void resetear(float px, float py);
+
+    float velocidadX;
+    float velocidadY;
+    float radio;
+    bool estaActiva;
+    bool superRoca;
+    bool usarGravedad;
+
+signals:
+    void totemGolpeado();
+    void rocaDetenida();
+
+private slots:
     void mover();
 
 private:
-    bool superRoca;
-    float velocidadX;
-    float velocidadY;
-
-    float gravedad;
-
-    bool usarGravedad;
-
     QTimer *timer;
+    float gravedad;
+    float friccion;      // Nivel 1: fricción de la tierra
+    int tamanoOriginal;
 };
 
 #endif // ROCA_H

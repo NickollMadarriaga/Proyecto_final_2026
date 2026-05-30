@@ -1,8 +1,9 @@
 #include "personaje.h"
 
-Personaje::Personaje()
+Personaje::Personaje(QObject *parent)
+    : QObject(parent), QGraphicsPixmapItem()
 {
-    velocidadX = 0;
-
-    velocidadY = 0;
+    posX = 0;
+    posY = 0;
+    velocidad = 0;
 }

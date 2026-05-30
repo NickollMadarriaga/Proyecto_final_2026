@@ -1,20 +1,22 @@
 #ifndef PERSONAJE_H
 #define PERSONAJE_H
 
-#include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QObject>
 
-class Personaje : public QObject,
-                  public QGraphicsPixmapItem
+class Personaje : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
-
 public:
-    explicit Personaje();
+    explicit Personaje(QObject *parent = nullptr);
+
+    virtual void mover() = 0;
+    virtual void avance(int fase) = 0;
 
 protected:
-    float velocidadX;
-    float velocidadY;
+    float posX;
+    float posY;
+    float velocidad;
 };
 
 #endif // PERSONAJE_H

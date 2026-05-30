@@ -1,14 +1,34 @@
 #ifndef JUEGOBOLOS_H
 #define JUEGOBOLOS_H
 
-class JuegoBolos
+#include <QObject>
+#include "nivel.h"
+
+class JuegoBolos : public QObject
 {
+    Q_OBJECT
 public:
-    JuegoBolos();
+    explicit JuegoBolos(QObject *parent = nullptr);
 
-    int puntaje;
+    void iniciar();
+    bool verificarFin();
 
-    int nivel;
+    int getPuntaje()    const { return puntuacion; }
+    int getNivel()      const { return nivelActual; }
+    int getTirosRestantes() const { return tirosRestantes; }
+
+    void agregarPuntos(int pts);
+    void siguienteNivel();
+    void reiniciar();
+
+    int tirosRestantes;
+    int puntuacion;
+    int nivelActual;
+
+signals:
+    void juegoTerminado(int puntuacion);
+    void nivelCambiado(int nuevoNivel);
+    void puntuacionActualizada(int puntos);
 };
 
-#endif
+#endif // JUEGOBOLOS_H
