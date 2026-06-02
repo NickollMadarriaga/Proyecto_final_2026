@@ -3,42 +3,67 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
-#include <QGraphicsView>
-#include "roca.h"
-#include <QKeyEvent>
 #include <QGraphicsTextItem>
 #include <QPushButton>
+#include <QLabel>
+#include <QTimer>
+#include "juegobolos.h"
 #include "nivel.h"
-#include <QGraphicsLineItem>
+#include "nivelcueva.h"
+#include "nivelbarranco.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
-}
+namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 
+private slots:
+    void onPinoGolpeado();
+    void onRocaDetenida();
+    void onTiempoVerificacion();
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
-    int puntaje;
-    Nivel *nivelActual;
-    QGraphicsLineItem *lineaPunteria;
-    QGraphicsTextItem *textoPuntaje;
-    int tirosRestantes = 3;
-    void mostrarMenu();
-    QPushButton *botonJugar;
 
-    int fuerza = 20;
+
+    JuegoBolos     *juego;
+    Nivel          *nivelActual;
+    bool            enMenu;
+    bool            esperandoVerificacion;
+
+
+    QLabel *labelTiros;
+    QLabel *labelPuntaje;
+    QLabel *labelNivel;
+    QLabel *labelHabilidades;
+    QLabel *labelMensaje;
+
+
+    QTimer *timerVerificacion;
+
+
+    void mostrarMenu();
+    void iniciarJuego();
+    void actualizarHUD();
+    void mostrarMensaje(const QString &msg, int duracionMs = 2000);
+    void procesarTiro();
+    void siguiente();
+    void mostrarGameOver(bool victoria);
+    void conectarNivel();
+
+
+    float anguloLanzamiento;
+    bool modoParabolico;
 };
+
 #endif // MAINWINDOW_H

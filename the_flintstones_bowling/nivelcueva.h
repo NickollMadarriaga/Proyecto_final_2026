@@ -15,14 +15,14 @@ public:
     void actualizarFisica() override;
     void avance(int fase)   override;
 
-    PedroPicapiedra *Pedro;
+    Pedropicapiedra *Pedro;
 
 private:
     float friccion;
     QString pistaDir;
 
     void crearSuelo();
-    void colocarPinos();
+    void colocarTotems();
 };
 
 #endif // NIVELCUEVA_H

@@ -10,7 +10,7 @@ NivelCueva::NivelCueva(QGraphicsScene *scene)
     nombre   = "Nivel 1 - La Cueva";
     friccion = 0.992f;
     pistaDir = "derecha";
-    Pedro  = nullptr;
+    Pedro     = nullptr;
 }
 
 void NivelCueva::cargarNivel()
@@ -20,56 +20,61 @@ void NivelCueva::cargarNivel()
 
     QPixmap fondo(":/imagenes/fondo.png");
     if (!fondo.isNull())
-        scene->setBackgroundBrush(fondo.scaled(1000, 600));
+        scene->setBackgroundBrush(fondo.scaled(1000, 600,
+                                               Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     else
-        scene->setBackgroundBrush(QBrush(QColor(80, 50, 20)));
+        scene->setBackgroundBrush(QBrush(QColor(180, 160, 120)));
 
     crearSuelo();
 
+
     roca = new Roca();
-    roca->setPos(120, 455);
+    roca->setPos(100, 430);
     scene->addItem(roca);
 
-    Pedro = new PedroPicapiedra();
-    Pedro->setPos(0, 375);
+
+    Pedro = new Pedropicapiedra();
+    Pedro->setPos(-20, 339);
     Pedro->rocaRef = roca;
-    scene->addItem(fred);
+    scene->addItem(Pedro);
 
     colocarTotems();
-
     configurarFisica();
 }
 
 void NivelCueva::crearSuelo()
 {
-    QGraphicsRectItem *suelo = scene->addRect(0, 500, 1000, 100,
-                                              QPen(Qt::NoPen),
-                                              QBrush(QColor(120, 80, 40)));
-    Q_UNUSED(suelo);
 
-    for (int i = 0; i < 10; i++) {
-        QGraphicsLineItem *linea = scene->addLine(
-            i * 100, 510, i * 100 + 60, 510,
-            QPen(QColor(100, 60, 20), 2, Qt::DashLine));
-        Q_UNUSED(linea);
+    scene->addRect(0, 490, 1000, 110,
+                   QPen(Qt::NoPen),
+                   QBrush(QColor(140, 100, 55, 180)));
+
+    for (int i = 1; i < 10; i++) {
+        scene->addLine(i * 100, 495, i * 100 + 60, 495,
+                       QPen(QColor(110, 75, 35, 150), 2, Qt::DashLine));
     }
 }
 
-void NivelCueva::colocarPinos()
+void NivelCueva::colocarTotems()
 {
-    // Formación triangular de 5
+
     QVector<QPointF> posiciones = {
 
-        {700, 390},
-        {670, 340}, {730, 340},
-        {640, 290}, {760, 290}
-    };
+                                   {750, 378},
+                                   {710, 338}, {790, 338},
+                                   {670, 298}, {830, 298},
+                                   };
 
     totemsRestantes = posiciones.size();
 
     for (const QPointF &pos : posiciones) {
-        Totems *totems = new totems();
+        Totems *totems = new Totems();
+        QPixmap img(":/imagenes/Totem.png");
+        if (!img.isNull())
+            totems->setPixmap(img.scaled(55, 110,
+                                       Qt::KeepAspectRatio, Qt::SmoothTransformation));
         totems->setPos(pos);
+        totems->setTransformOriginPoint(27, 110); // pivote en la base
         listaTotems.append(totems);
         scene->addItem(totems);
     }
@@ -77,18 +82,18 @@ void NivelCueva::colocarPinos()
 
 void NivelCueva::configurarFisica()
 {
-    if (roca) roca->usarGravedad = false;
+    // Nivel 1: solo fricción horizontal, sin gravedad
+    if (roca) {
+        roca->usarGravedad = false;
+    }
 }
 
 void NivelCueva::actualizarFisica()
 {
-    if (roca && roca->y() > 455) {
-        roca->setY(455);
+    if (roca && roca->y() > 430) {
+        roca->setY(430);
         roca->velocidadY = 0;
     }
 }
 
-void NivelCueva::avance(int fase)
-{
-    Q_UNUSED(fase);
-}
+void NivelCueva::avance(int fase) { Q_UNUSED(fase); }

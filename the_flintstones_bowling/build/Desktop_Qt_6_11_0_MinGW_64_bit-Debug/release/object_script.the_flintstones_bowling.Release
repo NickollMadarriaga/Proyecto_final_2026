@@ -1,4 +1,5 @@
 release/dino.o
+release/indicadorpunteria.o
 release/juegobolos.o
 release/main.o
 release/mainwindow.o
@@ -10,7 +11,11 @@ release/personaje.o
 release/roca.o
 release/totems.o
 release/qrc_resources.o
+release/moc_dino.o
+release/moc_indicadorpunteria.o
+release/moc_juegobolos.o
 release/moc_mainwindow.o
 release/moc_pedropicapiedra.o
 release/moc_personaje.o
 release/moc_roca.o
+release/moc_totems.o

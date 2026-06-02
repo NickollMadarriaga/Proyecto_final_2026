@@ -8,6 +8,7 @@ CONFIG += c++17
 
 SOURCES += \
     dino.cpp \
+    indicadorpunteria.cpp \
     juegobolos.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     dino.h \
+    indicadorpunteria.h \
     juegobolos.h \
     mainwindow.h \
     nivel.h \

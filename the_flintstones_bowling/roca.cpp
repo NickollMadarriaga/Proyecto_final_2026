@@ -58,9 +58,7 @@ bool Roca::colisiona()
             totems->derribar();
             golpeo = true;
 
-            // Efecto de rebote lateral en super roca
             if (superRoca) {
-                // La super roca sigue sin frenarse mucho
                 velocidadX *= 0.95f;
             } else {
                 velocidadX *= 0.75f;
@@ -75,14 +73,12 @@ void Roca::mover()
 {
     if (!estaActiva) return;
 
-    // Aplicar gravedad si es lanzamiento parabólico (Nivel 2)
     if (usarGravedad) {
         velocidadY += gravedad;
     }
 
     setPos(x() + velocidadX, y() + velocidadY);
 
-    // Aplicar fricción del suelo (Nivel 1: tierra)
     if (!usarGravedad) {
         velocidadX *= friccion;
         if (std::abs(velocidadX) < 0.1f) {
@@ -92,12 +88,10 @@ void Roca::mover()
         }
     }
 
-    // Límite inferior (suelo)
     if (scene() && y() > scene()->height() - 60) {
         setY(scene()->height() - 60);
-        velocidadY *= -0.4f;  // pequeño rebote
+        velocidadY *= -0.4f;
         if (std::abs(velocidadY) < 0.5f) velocidadY = 0;
-        // Aplicar fricción al aterrizar
         velocidadX *= friccion;
         if (std::abs(velocidadX) < 0.1f) {
             velocidadX = 0;
@@ -106,13 +100,13 @@ void Roca::mover()
         }
     }
 
-    // Límite derecho: salió de escena
+
     if (scene() && x() > scene()->width()) {
         estaActiva = false;
         emit rocaDetenida();
     }
 
-    // Desactivar super roca cuando se frena
+
     if (superRoca && std::abs(velocidadX) < 0.5f) {
         superRoca = false;
         QPixmap rocaImagen(":/imagenes/roca.png");
@@ -120,7 +114,6 @@ void Roca::mover()
             setPixmap(rocaImagen.scaled(tamanoOriginal, tamanoOriginal));
     }
 
-    // Detectar colisiones
     colisiona();
 }
 
@@ -132,7 +125,7 @@ void Roca::cambiarVelocidad(float nuevaVelocidad)
 void Roca::activarSuperRoca()
 {
     superRoca = true;
-    friccion = 0.999f; // Menos fricción en super roca
+    friccion = 0.999f;
     QPixmap rocaImagen(":/imagenes/roca.png");
     if (!rocaImagen.isNull())
         setPixmap(rocaImagen.scaled(100, 100));

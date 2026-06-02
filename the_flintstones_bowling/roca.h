@@ -11,15 +11,15 @@ class Roca : public QObject, public QGraphicsPixmapItem
 public:
     explicit Roca(QObject *parent = nullptr);
 
-    // Métodos de lanzamiento
+
     void lanzar(float velocidad);
     void lanzarParabolico(float vx, float vy);
 
 
     bool colisiona();
 
-    // Habilidades de Fred
-    void activarSuperRoca();     // "Grito de Guerra"
+
+    void activarSuperRoca();
     void cambiarVelocidad(float nuevaVelocidad);
 
     void resetear(float px, float py);
@@ -41,7 +41,7 @@ private slots:
 private:
     QTimer *timer;
     float gravedad;
-    float friccion;      // Nivel 1: fricción de la tierra
+    float friccion;
     int tamanoOriginal;
 };
 

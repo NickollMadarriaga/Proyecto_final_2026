@@ -10,7 +10,7 @@ NivelBarranco::NivelBarranco(QGraphicsScene *scene)
 {
     nombre   = "Nivel 2 - El Barranco";
     gravedad = 0.4f;
-    Pedro     = nullptr;
+    Pedro    = nullptr;
     dino     = nullptr;
 }
 
@@ -36,10 +36,10 @@ void NivelBarranco::cargarNivel()
     roca->setPos(50, 460);
     scene->addItem(roca);
 
-    Pedro = new PedroPicapiedra();
+    Pedro = new Pedropicapiedra();
     Pedro->setPos(0, 370);
     Pedro->rocaRef = roca;
-    scene->addItem(fred);
+    scene->addItem(Pedro);
 
     colocarTotems();
 
@@ -72,13 +72,12 @@ void NivelBarranco::crearPlataformas()
 
 void NivelBarranco::colocarTotems()
 {
-    // Pinos distribuidos en las plataformas
     QVector<QPointF> posiciones = {
-        {330,  305},   // sobre plataforma 430
-        {460,  405},   // sobre plataforma 430 derecha
-        {590,  215},   // sobre plataforma 340
-        {780,  115},   // sobre plataforma 240 (más difícil)
-        {440,  125},   // sobre plataforma alta 250
+        {330,  305},
+        {460,  405},
+        {590,  215},
+        {780,  115},
+        {440,  125},
     };
 
     totemsRestantes = posiciones.size();
@@ -93,7 +92,7 @@ void NivelBarranco::colocarTotems()
 
 void NivelBarranco::configurarFisica()
 {
-    // Nivel 2: usa gravedad y movimiento parabólico
+
     if (roca) roca->usarGravedad = true;
 }
 
@@ -101,7 +100,6 @@ void NivelBarranco::actualizarFisica()
 {
     if (!roca || !roca->estaActiva) return;
 
-    // Colisión roca con plataformas
     for (QGraphicsRectItem *plat : plataformas) {
         QRectF rTotems = roca->mapToScene(roca->boundingRect()).boundingRect();
         QRectF rPlat = plat->sceneBoundingRect();
@@ -109,7 +107,6 @@ void NivelBarranco::actualizarFisica()
         if (rTotems.intersects(rPlat) && roca->velocidadY > 0) {
             roca->setY(rPlat.top() - roca->boundingRect().height());
             roca->velocidadY = 0;
-            // La roca rueda sobre la plataforma con fricción
             roca->velocidadX *= 0.985f;
         }
     }

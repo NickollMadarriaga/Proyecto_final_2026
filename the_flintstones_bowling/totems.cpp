@@ -5,7 +5,6 @@ Totems::Totems(QObject *parent) : QObject(parent), QGraphicsPixmapItem()
 {
     QPixmap imagen(":/imagenes/Totem.png");
     if (imagen.isNull()) {
-        // Fallback: dibujar un totem simple si no hay imagen
         QPixmap fallback(60, 120);
         fallback.fill(Qt::gray);
         setPixmap(fallback);
@@ -18,7 +17,6 @@ Totems::Totems(QObject *parent) : QObject(parent), QGraphicsPixmapItem()
     velocidadRotacion = 3.0f;
     targetRotacion = 90.0f;
 
-    // Pivote en la base del totem para animación realista
     setTransformOriginPoint(30, 120);
 
     timerAnimacion = new QTimer(this);

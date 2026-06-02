@@ -17,7 +17,7 @@ public:
     void avance(int fase)    override;
 
 
-    PedroPicapiedra *Pedro;
+    Pedropicapiedra *Pedro;
     Dino *dino;
 
 private:
