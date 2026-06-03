@@ -1,53 +1,35 @@
 #include "totems.h"
 #include <QPixmap>
 
-Totems::Totems(QObject *parent) : QObject(parent), QGraphicsPixmapItem()
-{
-    QPixmap imagen(":/imagenes/Totem.png");
-    if (imagen.isNull()) {
-        QPixmap fallback(60, 120);
-        fallback.fill(Qt::gray);
-        setPixmap(fallback);
-    } else {
-        setPixmap(imagen.scaled(60, 120, Qt::KeepAspectRatio));
-    }
-
+Totems::Totems(QObject *parent) : QObject(parent), QGraphicsPixmapItem() {
     derribado = false;
-    anguloRotacion = 0;
-    velocidadRotacion = 3.0f;
-    targetRotacion = 90.0f;
+    angulo    = 0;
 
-    setTransformOriginPoint(30, 120);
-
-    timerAnimacion = new QTimer(this);
-    connect(timerAnimacion, &QTimer::timeout, this, &Totems::actualizarAnimacion);
-}
-
-void Totems::derribar()
-{
-    if (!derribado) {
-        derribado = true;
-        animarCaida();
+    QPixmap img(":/imagenes/Totem.png");
+    if (!img.isNull())
+        // Más grandes: 60×120 para que sean bien visibles
+        setPixmap(img.scaled(60,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    else {
+        QPixmap fb(60,120); fb.fill(QColor(100,70,35)); setPixmap(fb);
     }
+
+    setTransformOriginPoint(30, 120); // pivote en la base para caída realista
+
+    timerAnim = new QTimer(this);
+    connect(timerAnim,&QTimer::timeout,this,&Totems::tickAnimacion);
 }
 
-bool Totems::estaDerrribado()
-{
-    return derribado;
+void Totems::derribar() {
+    if (derribado) return;
+    derribado = true;
+    timerAnim->start(16);
 }
 
-void Totems::animarCaida()
-{
-    timerAnimacion->start(16);
-}
-
-void Totems::actualizarAnimacion()
-{
-    if (anguloRotacion < targetRotacion) {
-        anguloRotacion += velocidadRotacion;
-        if (anguloRotacion > targetRotacion) anguloRotacion = targetRotacion;
-        setRotation(anguloRotacion);
-    } else {
-        timerAnimacion->stop();
+void Totems::tickAnimacion() {
+    angulo += 5.0f;
+    setRotation(angulo);
+    if (angulo >= 90.0f) {
+        setRotation(90);
+        timerAnim->stop();
     }
 }

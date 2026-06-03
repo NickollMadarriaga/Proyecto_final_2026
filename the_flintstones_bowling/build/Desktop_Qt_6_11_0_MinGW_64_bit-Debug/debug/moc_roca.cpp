@@ -39,14 +39,14 @@ template <> constexpr inline auto Roca::qt_create_metaobjectdata<qt_meta_tag_ZN4
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "Roca",
-        "totemGolpeado",
+        "pinoGolpeado",
         "",
         "rocaDetenida",
         "mover"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Signal 'totemGolpeado'
+        // Signal 'pinoGolpeado'
         QtMocHelpers::SignalData<void()>(1, 2, QMC::AccessPublic, QMetaType::Void),
         // Signal 'rocaDetenida'
         QtMocHelpers::SignalData<void()>(3, 2, QMC::AccessPublic, QMetaType::Void),
@@ -75,14 +75,14 @@ void Roca::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
     auto *_t = static_cast<Roca *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->totemGolpeado(); break;
+        case 0: _t->pinoGolpeado(); break;
         case 1: _t->rocaDetenida(); break;
         case 2: _t->mover(); break;
         default: ;
         }
     }
     if (_c == QMetaObject::IndexOfMethod) {
-        if (QtMocHelpers::indexOfMethod<void (Roca::*)()>(_a, &Roca::totemGolpeado, 0))
+        if (QtMocHelpers::indexOfMethod<void (Roca::*)()>(_a, &Roca::pinoGolpeado, 0))
             return;
         if (QtMocHelpers::indexOfMethod<void (Roca::*)()>(_a, &Roca::rocaDetenida, 1))
             return;
@@ -123,7 +123,7 @@ int Roca::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void Roca::totemGolpeado()
+void Roca::pinoGolpeado()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }

@@ -1,67 +1,59 @@
 #ifndef PEDROPICAPIEDRA_H
 #define PEDROPICAPIEDRA_H
-
 #include "personaje.h"
 #include "roca.h"
 #include "indicadorpunteria.h"
-#include <QPixmap>
-#include <QTimer>
 #include <QVector>
-#include <QGraphicsScene>
+#include <QTimer>
 
+// Sprites individuales: :/imagenes/fred/N.png
+// IDLE:     1-5   CELEBRAR: 6-9
+// GRITO:   29-51 + 100-103
+// LANZAR:  52-83  CAMINAR: 84-92
 
-class Pedropicapiedra : public Personaje
-{
+class PedroPicapiedra : public Personaje {
     Q_OBJECT
 public:
-    explicit Pedropicapiedra(QObject *parent = nullptr);
-
+    explicit PedroPicapiedra(QObject *parent = nullptr);
     void mover() override;
     void avance(int fase) override;
+    void cargarFuerza(float v);
+    void lanzarRoca();
 
-    void cargarFuerza(float valor);
-    Roca* lanzarRoca();
-
+    // Habilidad 1 — máximo 1 uso por nivel
     void gritoGuerra();
+    bool gritoDisponible;
+
+    // Habilidad 2 — máximo 1 uso por nivel
     void activarPunteria();
     void desactivarPunteria();
-    void actualizarPunteria(bool usarGravedad = false);
+    void actualizarPunteria(bool gravedad=false);
+    bool pusteriaDisponible;
+    bool pusteriaActiva;
 
-    bool  pusteriaActiva;
-    bool  superRocaLista;
     float fuerzaCargada;
     Roca *rocaRef;
     IndicadorPunteria *indicadorPunteria;
 
-    enum Animacion { IDLE, CELEBRAR, GRITO, LANZAR, CAMINAR };
-
-    void reproducirAnimacion(Animacion anim, bool loop = true);
+    enum Anim { IDLE,CELEBRAR,GRITO,LANZAR,CAMINAR };
+    void play(Anim a, bool loop=true);
 
 private:
-    static constexpr int FPS_ANIMACION = 80;
-    QVector<QPixmap> framesIdle;
-    QVector<QPixmap> framesCelebrar;
-    QVector<QPixmap> framesGrito;
-    QVector<QPixmap> framesLanzar;
-    QVector<QPixmap> framesCaminar;
+    static const int FPS = 40;
+    QVector<QPixmap> fIdle,fCelebrar,fGrito,fLanzar,fCaminar;
+    QVector<QPixmap> *cur;
+    Anim   animActual;
+    int    frame;
+    bool   looping;
+    bool   cargado;
+    QTimer *tSprite, *tTemp;
 
-    QVector<QPixmap> *framesActuales;
-
-    Animacion animActual;
-    int       frameActual;
-    bool      loopActivo;
-    bool      algunaCargada;
-
-    QTimer *timerSprite;
-    QTimer *timerAnimTemporal;
-
-    void cargarRango(QVector<QPixmap> &vec, QVector<int> numeros);
-    void cargarFallback();
-    void mostrarFrameActual();
+    void loadRange(QVector<QPixmap>&, QVector<int>);
+    void fallback();
+    void showFrame();
 
 private slots:
-    void avanzarFrame();
-    void onAnimacionTerminada();
+    void nextFrame();
+    void backIdle();
 };
-
-#endif // PEDROPICAPIEDRA_H
+#endif //PEDROPICAPIEDRA_H

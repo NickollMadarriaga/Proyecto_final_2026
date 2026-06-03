@@ -43,7 +43,7 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "onPinoGolpeado",
         "",
         "onRocaDetenida",
-        "onTiempoVerificacion"
+        "onVerificacion"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -51,7 +51,7 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onRocaDetenida'
         QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onTiempoVerificacion'
+        // Slot 'onVerificacion'
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
@@ -78,7 +78,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->onPinoGolpeado(); break;
         case 1: _t->onRocaDetenida(); break;
-        case 2: _t->onTiempoVerificacion(); break;
+        case 2: _t->onVerificacion(); break;
         default: ;
         }
     }

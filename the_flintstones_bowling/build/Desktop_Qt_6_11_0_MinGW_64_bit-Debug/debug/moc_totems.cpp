@@ -39,12 +39,12 @@ template <> constexpr inline auto Totems::qt_create_metaobjectdata<qt_meta_tag_Z
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "Totems",
-        "actualizarAnimacion",
+        "tickAnimacion",
         ""
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Slot 'actualizarAnimacion'
+        // Slot 'tickAnimacion'
         QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
@@ -69,7 +69,7 @@ void Totems::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
     auto *_t = static_cast<Totems *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->actualizarAnimacion(); break;
+        case 0: _t->tickAnimacion(); break;
         default: ;
         }
     }

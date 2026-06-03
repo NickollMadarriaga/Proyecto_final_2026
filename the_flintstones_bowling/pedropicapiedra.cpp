@@ -1,185 +1,106 @@
-#include "Pedropicapiedra.h"
+#include "pedropicapiedra.h"
+#include <QGraphicsScene>
 
-Pedropicapiedra::Pedropicapiedra(QObject *parent)
-    : Personaje(parent)
-{
-    fuerzaCargada   = 5.0f;
-    pusteriaActiva  = false;
-    superRocaLista  = false;
-    rocaRef         = nullptr;
-    animActual      = IDLE;
-    frameActual     = 0;
-    loopActivo      = true;
-    algunaCargada   = false;
-    framesActuales  = &framesIdle;
+PedroPicapiedra::PedroPicapiedra(QObject *parent) : Personaje(parent) {
+    fuerzaCargada=8.0f; pusteriaActiva=false;
+    rocaRef=nullptr; animActual=IDLE; frame=0; looping=true; cargado=false;
+    cur=&fIdle;
+    gritoDisponible=true; pusteriaDisponible=true;
 
     indicadorPunteria = new IndicadorPunteria(this);
 
-    cargarRango(framesIdle, {1,2,3,4,5});
+    loadRange(fIdle,{1,2,3,4,5});
+    loadRange(fCelebrar,{6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22});
+    {QVector<int> g; for(int i=29;i<=51;i++) g<<i; g<<100<<101<<102<<103; loadRange(fGrito,g);}
+    {QVector<int> l; for(int i=30;i<=83;i++) l<<i; loadRange(fLanzar,l);}
+    {QVector<int> c; for(int i=84;i<=92;i++) c<<i; loadRange(fCaminar,c);}
+    if (!cargado) fallback();
 
-    cargarRango(framesCelebrar, {6,7,8,9});
+    tSprite = new QTimer(this);
+    tSprite->setInterval(FPS);
+    connect(tSprite,&QTimer::timeout,this,&PedroPicapiedra::nextFrame);
 
-    QVector<int> numerosGrito;
-    for (int i = 29; i <= 51; i++) numerosGrito << i;
-    numerosGrito << 100 << 101 << 102 << 103;
-    cargarRango(framesGrito, numerosGrito);
+    tTemp = new QTimer(this);
+    tTemp->setSingleShot(true);
+    connect(tTemp,&QTimer::timeout,this,&PedroPicapiedra::backIdle);
 
-    QVector<int> numerosLanzar;
-    for (int i = 52; i <= 83; i++) numerosLanzar << i;
-    cargarRango(framesLanzar, numerosLanzar);
-
-
-    QVector<int> numerosCaminar;
-    for (int i = 84; i <= 92; i++) numerosCaminar << i;
-    cargarRango(framesCaminar, numerosCaminar);
-
-    if (!algunaCargada) {
-        cargarFallback();
-    }
-
-    timerSprite = new QTimer(this);
-    timerSprite->setInterval(FPS_ANIMACION);
-    connect(timerSprite, &QTimer::timeout, this, &Pedropicapiedra::avanzarFrame);
-
-    timerAnimTemporal = new QTimer(this);
-    timerAnimTemporal->setSingleShot(true);
-    connect(timerAnimTemporal, &QTimer::timeout,
-            this, &Pedropicapiedra::onAnimacionTerminada);
-
-    reproducirAnimacion(IDLE, true);
+    play(IDLE,true);
 }
 
-void Pedropicapiedra::cargarRango(QVector<QPixmap> &vec, QVector<int> numeros)
-{
-    for (int n : numeros) {
-        QPixmap px(QString(":/imagenes/fred/%1.png").arg(n));
+void PedroPicapiedra::loadRange(QVector<QPixmap>&v, QVector<int> nums) {
+    for (int n:nums) {
+        QPixmap px(QString(":/imagenes/%1.png").arg(n));
         if (!px.isNull()) {
-            vec << px.scaled(201, 151, Qt::KeepAspectRatio,
-                             Qt::SmoothTransformation);
-            algunaCargada = true;
+            v << px.scaled(201,151,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+            cargado=true;
         }
     }
-
-    if (vec.isEmpty()) {
-        QPixmap fb(120, 120);
-        fb.fill(Qt::transparent);
-        vec << fb;
-    }
+    if (v.isEmpty()) { QPixmap fb(201,151); fb.fill(Qt::transparent); v<<fb; }
 }
 
-void Pedropicapiedra::cargarFallback()
-{
+void PedroPicapiedra::fallback() {
     QPixmap img(":/imagenes/fred.png");
-    if (!img.isNull())
-        setPixmap(img.scaled(201, 151, Qt::KeepAspectRatio));
-    else {
-        QPixmap fb(120, 120);
-        fb.fill(Qt::blue);
-        setPixmap(fb);
+    if (!img.isNull()) setPixmap(img.scaled(201,151,Qt::KeepAspectRatio));
+    else { QPixmap fb(120,151); fb.fill(Qt::blue); setPixmap(fb); }
+}
+
+void PedroPicapiedra::showFrame() {
+    if (!cur||cur->isEmpty()) return;
+    frame=qBound(0,frame,cur->size()-1);
+    setPixmap(cur->at(frame));
+}
+
+void PedroPicapiedra::play(Anim a, bool loop) {
+    animActual=a; frame=0; looping=loop;
+    switch(a){
+    case IDLE:     cur=&fIdle;     break;
+    case CELEBRAR: cur=&fCelebrar; break;
+    case GRITO:    cur=&fGrito;    break;
+    case LANZAR:   cur=&fLanzar;   break;
+    case CAMINAR:  cur=&fCaminar;  break;
     }
+    showFrame();
+    tSprite->start(FPS);
+    if (!loop) tTemp->start(cur->size()*FPS);
+    else tTemp->stop();
 }
 
-void Pedropicapiedra::mostrarFrameActual()
-{
-    if (!framesActuales || framesActuales->isEmpty()) return;
-
-    frameActual = qBound(0, frameActual, framesActuales->size() - 1);
-    setPixmap(framesActuales->at(frameActual));
-}
-
-void Pedropicapiedra::reproducirAnimacion(Animacion anim, bool loop)
-{
-    animActual  = anim;
-    frameActual = 0;
-    loopActivo  = loop;
-
-    switch (anim) {
-    case IDLE:     framesActuales = &framesIdle;     break;
-    case CELEBRAR: framesActuales = &framesCelebrar; break;
-    case GRITO:    framesActuales = &framesGrito;    break;
-    case LANZAR:   framesActuales = &framesLanzar;   break;
-    case CAMINAR:  framesActuales = &framesCaminar;  break;
+void PedroPicapiedra::nextFrame() {
+    if (!cur||cur->isEmpty()) return;
+    frame++;
+    if (frame>=cur->size()) {
+        if (looping) frame=0;
+        else { frame=cur->size()-1; tSprite->stop(); return; }
     }
-
-    mostrarFrameActual();
-    timerSprite->start(FPS_ANIMACION);
-
-    if (!loop) {
-        int duracion = framesActuales->size() * FPS_ANIMACION;
-        timerAnimTemporal->start(duracion);
-    } else {
-        timerAnimTemporal->stop();
-    }
+    showFrame();
 }
+void PedroPicapiedra::backIdle() { play(IDLE,true); }
 
-void Pedropicapiedra::avanzarFrame()
-{
-    if (!framesActuales || framesActuales->isEmpty()) return;
-
-    frameActual++;
-
-    if (frameActual >= framesActuales->size()) {
-        if (loopActivo) {
-            frameActual = 0;
-        } else {
-            frameActual = framesActuales->size() - 1;
-            timerSprite->stop();
-            return;
-        }
-    }
-
-    mostrarFrameActual();
-}
-
-void Pedropicapiedra::onAnimacionTerminada()
-{
-    reproducirAnimacion(IDLE, true);
-}
-
-void Pedropicapiedra::gritoGuerra()
-{
-    superRocaLista = true;
+void PedroPicapiedra::gritoGuerra() {
+    if (!gritoDisponible) return;
+    gritoDisponible=false;
     if (rocaRef) rocaRef->activarSuperRoca();
-    reproducirAnimacion(GRITO, false);
+    play(GRITO,false);
 }
 
-Roca* Pedropicapiedra::lanzarRoca()
-{
-    reproducirAnimacion(LANZAR, false);
-    return rocaRef;
-}
-
-void Pedropicapiedra::avance(int fase)
-{
-    if (fase == 1) reproducirAnimacion(CELEBRAR, false);
-}
-
-void Pedropicapiedra::mover() {}
-
-void Pedropicapiedra::cargarFuerza(float valor)
-{
-    fuerzaCargada = qBound(2.0f, fuerzaCargada + valor, 20.0f);
-}
-
-void Pedropicapiedra::activarPunteria()
-{
-    pusteriaActiva = true;
+void PedroPicapiedra::activarPunteria() {
+    if (!pusteriaDisponible) return;
+    pusteriaDisponible=false;
+    pusteriaActiva=true;
     if (rocaRef && scene()) {
-        if (!indicadorPunteria->scene())
-            scene()->addItem(indicadorPunteria);
-        indicadorPunteria->mostrar(rocaRef->x(), rocaRef->y(), fuerzaCargada);
+        if (!indicadorPunteria->scene()) scene()->addItem(indicadorPunteria);
+        indicadorPunteria->mostrar(rocaRef->x(),rocaRef->y(),fuerzaCargada);
     }
 }
-
-void Pedropicapiedra::desactivarPunteria()
-{
-    pusteriaActiva = false;
-    indicadorPunteria->ocultar();
+void PedroPicapiedra::desactivarPunteria() {
+    pusteriaActiva=false; indicadorPunteria->ocultar();
+}
+void PedroPicapiedra::actualizarPunteria(bool g) {
+    if (pusteriaActiva&&rocaRef)
+        indicadorPunteria->actualizar(rocaRef->x(),rocaRef->y(),fuerzaCargada,g);
 }
 
-void Pedropicapiedra::actualizarPunteria(bool usarGravedad)
-{
-    if (pusteriaActiva && rocaRef)
-        indicadorPunteria->actualizar(rocaRef->x(), rocaRef->y(),
-                                      fuerzaCargada, usarGravedad);
-}
+void PedroPicapiedra::lanzarRoca() { play(LANZAR,false); }
+void PedroPicapiedra::cargarFuerza(float v){ fuerzaCargada=qBound(3.0f,fuerzaCargada+v,20.0f); }
+void PedroPicapiedra::mover() {}
+void PedroPicapiedra::avance(int fase){ if(fase==1) play(CELEBRAR,false); }

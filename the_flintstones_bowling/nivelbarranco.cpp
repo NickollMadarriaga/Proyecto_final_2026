@@ -2,117 +2,89 @@
 #include <QPixmap>
 #include <QPen>
 #include <QBrush>
-#include <QColor>
-#include <QTimer>
 
-NivelBarranco::NivelBarranco(QGraphicsScene *scene)
-    : Nivel(scene)
-{
-    nombre   = "Nivel 2 - El Barranco";
-    gravedad = 0.4f;
-    Pedro    = nullptr;
-    dino     = nullptr;
+static const int SY2=500, PHH2=151, RH2=55, TH2=104;
+
+NivelBarranco::NivelBarranco(QGraphicsScene *s) : Nivel(s) {
+    fred=nullptr; dino=nullptr;
+    rocaIniX=140; rocaIniY=SY2-RH2;
 }
 
-void NivelBarranco::cargarNivel()
-{
-    scene->clear();
-    listaTotems.clear();
-    plataformas.clear();
+void NivelBarranco::cargarNivel() {
+    scene->clear(); listaTotems.clear(); plats.clear();
 
     QPixmap fondo(":/imagenes/fondo2.png");
-    if (!fondo.isNull())
-        scene->setBackgroundBrush(fondo.scaled(1000, 600));
+    if(!fondo.isNull())
+        scene->setBackgroundBrush(fondo.scaled(1000,600,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
     else
-        scene->setBackgroundBrush(QBrush(QColor(50, 80, 120)));
+        scene->setBackgroundBrush(QBrush(QColor(55,85,125)));
 
-    QGraphicsRectItem *suelo = scene->addRect(0, 550, 1000, 50,
-                                              QPen(Qt::NoPen), QBrush(QColor(80, 60, 30)));
-    Q_UNUSED(suelo);
+    scene->addRect(0,SY2,1000,100,QPen(Qt::NoPen),QBrush(QColor(80,58,28,190)))->setZValue(0);
 
-    crearPlataformas();
+    mkPlataformas();
 
-    roca = new Roca();
-    roca->setPos(50, 460);
+    roca=new Roca();
+    roca->sueloY=SY2-RH2;
+    roca->setPos(rocaIniX,rocaIniY);
+    roca->setZValue(5);
     scene->addItem(roca);
 
-    Pedro = new Pedropicapiedra();
-    Pedro->setPos(0, 370);
-    Pedro->rocaRef = roca;
-    scene->addItem(Pedro);
+    fred=new PedroPicapiedra();
+    fred->rocaRef=roca;
+    fred->setPos(5,SY2-PHH2);
+    fred->setZValue(4);
+    scene->addItem(fred);
 
-    colocarTotems();
+    mkTotems();
 
-    dino = new Dino(roca);
-    dino->setPos(550, 460);
+    dino=new Dino(roca);
+    dino->setPos(500,SY2-100);
+    dino->setZValue(4);
     scene->addItem(dino);
 
     configurarFisica();
 }
 
-void NivelBarranco::crearPlataformas()
-{
-    // Plataformas a diferentes alturas según el nivel
-    struct PlataformaInfo { int x, y, w, h; };
-    QVector<PlataformaInfo> infos = {
-        {300, 430, 180, 18},   // Plataforma baja-izquierda
-        {550, 340, 160, 18},   // Plataforma media
-        {750, 240, 160, 18},   // Plataforma alta
-        {420, 250, 120, 18},   // Plataforma extra media-alta
-    };
-
-    for (auto &info : infos) {
-        QGraphicsRectItem *plat = scene->addRect(
-            info.x, info.y, info.w, info.h,
-            QPen(QColor(60, 40, 10), 2),
-            QBrush(QColor(110, 75, 35)));
-        plataformas.append(plat);
+void NivelBarranco::mkPlataformas() {
+    struct PD{int x,y,w;};
+    QVector<PD> defs={{280,400,165},{500,310,155},{710,225,160},{420,255,125}};
+    for(auto&d:defs){
+        scene->addRect(d.x,d.y,d.w,18,
+                       QPen(QColor(55,35,8),2),
+                       QBrush(QColor(108,72,32)))->setZValue(2);
+        plats.append(QRectF(d.x,d.y,d.w,18));
     }
 }
 
-void NivelBarranco::colocarTotems()
-{
-    QVector<QPointF> posiciones = {
-        {330,  305},
-        {460,  405},
-        {590,  215},
-        {780,  115},
-        {440,  125},
-    };
-
-    totemsRestantes = posiciones.size();
-
-    for (const QPointF &pos : posiciones) {
-        Totems *totems = new Totems();
-        totems->setPos(pos);
-        listaTotems.append(totems);
-        scene->addItem(totems);
+void NivelBarranco::mkTotems() {
+    QVector<QPointF> pos={
+                            {310, 400-TH2},
+                            {530, 310-TH2},
+                            {740, 225-TH2},
+                            {450, 255-TH2},
+                            {380, SY2-TH2},
+                            };
+    totemsRestantes=pos.size();
+    for(auto&p:pos){
+        Totems*t=new Totems();
+        t->setPos(p); t->setZValue(3);
+        listaTotems.append(t); scene->addItem(t);
     }
 }
 
-void NivelBarranco::configurarFisica()
-{
-
-    if (roca) roca->usarGravedad = true;
+void NivelBarranco::configurarFisica() {
+    if(roca) roca->usarGravedad=true;
 }
-
-void NivelBarranco::actualizarFisica()
-{
-    if (!roca || !roca->estaActiva) return;
-
-    for (QGraphicsRectItem *plat : plataformas) {
-        QRectF rTotems = roca->mapToScene(roca->boundingRect()).boundingRect();
-        QRectF rPlat = plat->sceneBoundingRect();
-
-        if (rTotems.intersects(rPlat) && roca->velocidadY > 0) {
-            roca->setY(rPlat.top() - roca->boundingRect().height());
-            roca->velocidadY = 0;
-            roca->velocidadX *= 0.985f;
+void NivelBarranco::actualizarFisica() {
+    if(!roca||!roca->estaActiva) return;
+    for(const QRectF&pl:plats){
+        QRectF rb=roca->sceneBoundingRect();
+        if(rb.intersects(pl)&&roca->velocidadY>0){
+            roca->setY(pl.top()-RH2);
+            roca->velocidadY=0;
         }
     }
 }
-
-void NivelBarranco::avance(int fase)
-{
-    Q_UNUSED(fase);
+void NivelBarranco::avance(int fase){
+    if(fase==1&&fred) fred->avance(1);
 }

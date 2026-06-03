@@ -31,69 +31,69 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-struct qt_meta_tag_ZN15PedropicapiedraE_t {};
+struct qt_meta_tag_ZN15PedroPicapiedraE_t {};
 } // unnamed namespace
 
-template <> constexpr inline auto Pedropicapiedra::qt_create_metaobjectdata<qt_meta_tag_ZN15PedropicapiedraE_t>()
+template <> constexpr inline auto PedroPicapiedra::qt_create_metaobjectdata<qt_meta_tag_ZN15PedroPicapiedraE_t>()
 {
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
-        "Pedropicapiedra",
-        "avanzarFrame",
+        "PedroPicapiedra",
+        "nextFrame",
         "",
-        "onAnimacionTerminada"
+        "backIdle"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Slot 'avanzarFrame'
+        // Slot 'nextFrame'
         QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onAnimacionTerminada'
+        // Slot 'backIdle'
         QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
     QtMocHelpers::UintData qt_enums {
     };
-    return QtMocHelpers::metaObjectData<Pedropicapiedra, qt_meta_tag_ZN15PedropicapiedraE_t>(QMC::MetaObjectFlag{}, qt_stringData,
+    return QtMocHelpers::metaObjectData<PedroPicapiedra, qt_meta_tag_ZN15PedroPicapiedraE_t>(QMC::MetaObjectFlag{}, qt_stringData,
             qt_methods, qt_properties, qt_enums);
 }
-Q_CONSTINIT const QMetaObject Pedropicapiedra::staticMetaObject = { {
+Q_CONSTINIT const QMetaObject PedroPicapiedra::staticMetaObject = { {
     QMetaObject::SuperData::link<Personaje::staticMetaObject>(),
-    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN15PedropicapiedraE_t>.stringdata,
-    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN15PedropicapiedraE_t>.data,
+    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN15PedroPicapiedraE_t>.stringdata,
+    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN15PedroPicapiedraE_t>.data,
     qt_static_metacall,
     nullptr,
-    qt_staticMetaObjectRelocatingContent<qt_meta_tag_ZN15PedropicapiedraE_t>.metaTypes,
+    qt_staticMetaObjectRelocatingContent<qt_meta_tag_ZN15PedroPicapiedraE_t>.metaTypes,
     nullptr
 } };
 
-void Pedropicapiedra::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void PedroPicapiedra::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    auto *_t = static_cast<Pedropicapiedra *>(_o);
+    auto *_t = static_cast<PedroPicapiedra *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->avanzarFrame(); break;
-        case 1: _t->onAnimacionTerminada(); break;
+        case 0: _t->nextFrame(); break;
+        case 1: _t->backIdle(); break;
         default: ;
         }
     }
     (void)_a;
 }
 
-const QMetaObject *Pedropicapiedra::metaObject() const
+const QMetaObject *PedroPicapiedra::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *Pedropicapiedra::qt_metacast(const char *_clname)
+void *PedroPicapiedra::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN15PedropicapiedraE_t>.strings))
+    if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN15PedroPicapiedraE_t>.strings))
         return static_cast<void*>(this);
     return Personaje::qt_metacast(_clname);
 }
 
-int Pedropicapiedra::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int PedroPicapiedra::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = Personaje::qt_metacall(_c, _id, _a);
     if (_id < 0)

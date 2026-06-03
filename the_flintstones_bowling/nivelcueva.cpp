@@ -2,98 +2,88 @@
 #include <QPixmap>
 #include <QPen>
 #include <QBrush>
-#include <QColor>
 
-NivelCueva::NivelCueva(QGraphicsScene *scene)
-    : Nivel(scene)
-{
-    nombre   = "Nivel 1 - La Cueva";
-    friccion = 0.992f;
-    pistaDir = "derecha";
-    Pedro     = nullptr;
+static const int SY  = 530;
+static const int RH  = 55;
+static const int PHH = 151;
+static const int TH  = 120;
+static const int TW  = 60;
+
+NivelCueva::NivelCueva(QGraphicsScene *scene) : Nivel(scene) {
+    pedro    = nullptr;
+    rocaIniX = 160;
+    rocaIniY = SY - RH;
 }
 
-void NivelCueva::cargarNivel()
-{
-    scene->clear();
-    listaTotems.clear();
+void NivelCueva::cargarNivel() {
+    scene->clear(); listaTotems.clear();
 
     QPixmap fondo(":/imagenes/fondo.png");
     if (!fondo.isNull())
-        scene->setBackgroundBrush(fondo.scaled(1000, 600,
-                                               Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        scene->setBackgroundBrush(fondo.scaled(1000,600,
+                                               Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
     else
-        scene->setBackgroundBrush(QBrush(QColor(180, 160, 120)));
+        scene->setBackgroundBrush(QBrush(QColor(185,160,115)));
 
-    crearSuelo();
-
+    scene->addRect(0, SY, 1000, 70,
+                   QPen(Qt::NoPen), QBrush(QColor(110,75,35,150)))->setZValue(0);
+    for (int i=0;i<10;i++)
+        scene->addLine(50+i*95, SY+10, 100+i*95, SY+10,
+                       QPen(QColor(85,55,20,140),2,Qt::DashLine))->setZValue(1);
 
     roca = new Roca();
-    roca->setPos(100, 430);
+    roca->sueloY = SY - RH;
+    roca->setPos(rocaIniX, rocaIniY);
+    roca->setZValue(5);
     scene->addItem(roca);
 
+    pedro = new PedroPicapiedra();
+    pedro->rocaRef = roca;
+    pedro->setPos(0, SY - PHH);
+    pedro->setZValue(6);
+    scene->addItem(pedro);
 
-    Pedro = new Pedropicapiedra();
-    Pedro->setPos(-20, 339);
-    Pedro->rocaRef = roca;
-    scene->addItem(Pedro);
 
-    colocarTotems();
+    float baseY = (SY - TH)+30;
+    float cx    = 750;
+    float sepX  = 50;
+    float sepY  = 35;
+
+    struct P { float x, y; };
+    QVector<P> pos = {
+        {cx,            baseY},
+
+        {cx + sepX,     baseY - sepY/2},
+        {cx + sepX,     baseY + sepY/2},
+
+        {cx + sepX*2,   baseY - sepY},
+        {cx + sepX*2,   baseY},
+        {cx + sepX*2,   baseY + sepY},
+
+        {cx + sepX*3,   baseY - sepY*1.5},
+        {cx + sepX*3,   baseY - sepY/2},
+        {cx + sepX*3,   baseY + sepY/2},
+        {cx + sepX*3,   baseY + sepY*1.5}
+    };
+
+    totemsRestantes = pos.size();
+    for (auto &p : pos) {
+        Totems *t = new Totems();
+        t->setPos(p.x, p.y);
+        t->setZValue(3);
+        listaTotems.append(t);
+        scene->addItem(t);
+    }
+
     configurarFisica();
 }
 
-void NivelCueva::crearSuelo()
-{
-
-    scene->addRect(0, 490, 1000, 110,
-                   QPen(Qt::NoPen),
-                   QBrush(QColor(140, 100, 55, 180)));
-
-    for (int i = 1; i < 10; i++) {
-        scene->addLine(i * 100, 495, i * 100 + 60, 495,
-                       QPen(QColor(110, 75, 35, 150), 2, Qt::DashLine));
-    }
+void NivelCueva::configurarFisica() {
+    if (roca) roca->usarGravedad = false;
 }
-
-void NivelCueva::colocarTotems()
-{
-
-    QVector<QPointF> posiciones = {
-
-                                   {750, 378},
-                                   {710, 338}, {790, 338},
-                                   {670, 298}, {830, 298},
-                                   };
-
-    totemsRestantes = posiciones.size();
-
-    for (const QPointF &pos : posiciones) {
-        Totems *totems = new Totems();
-        QPixmap img(":/imagenes/Totem.png");
-        if (!img.isNull())
-            totems->setPixmap(img.scaled(55, 110,
-                                       Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        totems->setPos(pos);
-        totems->setTransformOriginPoint(27, 110); // pivote en la base
-        listaTotems.append(totems);
-        scene->addItem(totems);
-    }
+void NivelCueva::actualizarFisica() {
+    if (roca && roca->y() > SY-RH) roca->setY(SY-RH);
 }
-
-void NivelCueva::configurarFisica()
-{
-    // Nivel 1: solo fricción horizontal, sin gravedad
-    if (roca) {
-        roca->usarGravedad = false;
-    }
+void NivelCueva::avance(int fase) {
+    if (fase==1 && pedro) pedro->avance(1);
 }
-
-void NivelCueva::actualizarFisica()
-{
-    if (roca && roca->y() > 430) {
-        roca->setY(430);
-        roca->velocidadY = 0;
-    }
-}
-
-void NivelCueva::avance(int fase) { Q_UNUSED(fase); }

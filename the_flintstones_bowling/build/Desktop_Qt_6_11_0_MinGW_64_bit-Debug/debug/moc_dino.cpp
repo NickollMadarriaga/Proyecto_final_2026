@@ -39,22 +39,25 @@ template <> constexpr inline auto Dino::qt_create_metaobjectdata<qt_meta_tag_ZN4
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "Dino",
-        "avanzarFrame",
+        "tickIA",
         "",
-        "onAnimacionTerminada",
-        "actualizarIA",
-        "actualizarSalto"
+        "actuar",
+        "nextFrameD",
+        "idleD",
+        "tickSalto"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Slot 'avanzarFrame'
+        // Slot 'tickIA'
         QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onAnimacionTerminada'
+        // Slot 'actuar'
         QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'actualizarIA'
+        // Slot 'nextFrameD'
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'actualizarSalto'
+        // Slot 'idleD'
         QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'tickSalto'
+        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -78,10 +81,11 @@ void Dino::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
     auto *_t = static_cast<Dino *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->avanzarFrame(); break;
-        case 1: _t->onAnimacionTerminada(); break;
-        case 2: _t->actualizarIA(); break;
-        case 3: _t->actualizarSalto(); break;
+        case 0: _t->tickIA(); break;
+        case 1: _t->actuar(); break;
+        case 2: _t->nextFrameD(); break;
+        case 3: _t->idleD(); break;
+        case 4: _t->tickSalto(); break;
         default: ;
         }
     }
@@ -107,14 +111,14 @@ int Dino::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 5)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }

@@ -1,238 +1,140 @@
 #include "dino.h"
 #include <cmath>
+#include <QRandomGenerator>
 
+const int Dino::SF[4] = {4,6,5,4};
 
-constexpr int Dino::FRAMES_POR_FILA[5];
+Dino::Dino(Roca *r, QObject *parent) : Personaje(parent), roca(r) {
+    velocidad=VEL_MAX; reaccionando=false; yaGolpeo=false;
+    saltando=false; velSalto=0; yBase=0; xPatrulla=520; dirP=1;
+    animD=D_IDLE; frameD=0; loopD=true; sheetOk=false;
 
-Dino::Dino(Roca *rocaRef, QObject *parent)
-    : Personaje(parent), roca(rocaRef)
-{
-    velocidad      = 2.5f;
-    yaGolpeo       = false;
-    saltando       = false;
-    velocidadSalto = 0;
-    alturaOriginal = 0;
-    animActual     = IDLE;
-    frameActual    = 0;
-    loopActivo     = true;
-    spriteCargado  = false;
+    sheet = QPixmap(":/imagenes/dino_sprites.png");
+    if (!sheet.isNull()) sheetOk=true;
+    else fallbackD();
 
-    spritesheet = QPixmap(":/imagenes/dino_sprites.png");
-    if (!spritesheet.isNull()) {
-        spriteCargado = true;
-    } else {
-        cargarFallback();
-    }
+    tSprite=new QTimer(this); tSprite->setInterval(SFPS);
+    connect(tSprite,&QTimer::timeout,this,&Dino::nextFrameD);
+    tTemp=new QTimer(this); tTemp->setSingleShot(true);
+    connect(tTemp,&QTimer::timeout,this,&Dino::idleD);
+    if(sheetOk) loadFrame();
+    playD(D_IDLE,true);
 
-    timerSprite = new QTimer(this);
-    timerSprite->setInterval(FPS_ANIMACION);
-    connect(timerSprite, &QTimer::timeout, this, &Dino::avanzarFrame);
+    tReaccion=new QTimer(this); tReaccion->setSingleShot(true);
+    connect(tReaccion,&QTimer::timeout,this,&Dino::actuar);
 
-    timerAnimTemporal = new QTimer(this);
-    timerAnimTemporal->setSingleShot(true);
-    connect(timerAnimTemporal, &QTimer::timeout,
-            this, &Dino::onAnimacionTerminada);
-
-    if (spriteCargado) cargarFrame();
-    reproducirAnimacion(IDLE, true);
-
-    timerIA = new QTimer(this);
-    connect(timerIA, &QTimer::timeout, this, &Dino::actualizarIA);
-    timerIA->start(16);
+    tIA=new QTimer(this);
+    connect(tIA,&QTimer::timeout,this,&Dino::tickIA);
+    tIA->start(16);
 }
 
-void Dino::cargarFrame()
-{
-    if (!spriteCargado) return;
-
-    int x = frameActual * FRAME_W;
-    int y = animActual  * FRAME_H;
-
-    QPixmap frame = spritesheet.copy(x, y, FRAME_W, FRAME_H);
-    setPixmap(frame);
-}
-
-void Dino::cargarFallback()
-{
+void Dino::fallbackD() {
     QPixmap img(":/imagenes/dino.png");
-    if (!img.isNull())
-        setPixmap(img.scaled(100, 100, Qt::KeepAspectRatio));
-    else {
-        QPixmap fb(100, 100);
-        fb.fill(Qt::green);
-        setPixmap(fb);
-    }
+    if (!img.isNull()) setPixmap(img.scaled(100,100,Qt::KeepAspectRatio));
+    else { QPixmap fb(100,100); fb.fill(QColor(40,160,60)); setPixmap(fb); }
 }
-
-void Dino::reproducirAnimacion(Animacion anim, bool loop)
-{
-    if (!spriteCargado) return;
-
-    if (!loop && (animActual == ATACAR || animActual == SALTAR)
-        && anim != ATACAR && anim != SALTAR) return;
-
-    animActual  = anim;
-    frameActual = 0;
-    loopActivo  = loop;
-
-    cargarFrame();
-    timerSprite->start(FPS_ANIMACION);
-
-    if (!loop) {
-        int duracion = FRAMES_POR_FILA[anim] * FPS_ANIMACION;
-        timerAnimTemporal->start(duracion);
-    } else {
-        timerAnimTemporal->stop();
-    }
+void Dino::loadFrame() {
+    if (!sheetOk) return;
+    setPixmap(sheet.copy(frameD*SW, animD*SH, SW, SH));
 }
-
-void Dino::avanzarFrame()
-{
-    if (!spriteCargado) return;
-
-    frameActual++;
-    int totalFrames = FRAMES_POR_FILA[animActual];
-
-    if (frameActual >= totalFrames) {
-        if (loopActivo) {
-            frameActual = 0;
-        } else {
-            frameActual = totalFrames - 1;
-            timerSprite->stop();
-            return;
-        }
-    }
-
-    cargarFrame();
+void Dino::playD(AnimD a, bool loop) {
+    animD=a; frameD=0; loopD=loop;
+    if(sheetOk) loadFrame();
+    tSprite->start(SFPS);
+    if(!loop) tTemp->start(SF[a]*SFPS); else tTemp->stop();
 }
-
-void Dino::onAnimacionTerminada()
-{
-    reproducirAnimacion(IDLE, true);
+void Dino::nextFrameD() {
+    if(!sheetOk) return;
+    frameD++;
+    if(frameD>=SF[animD]) { if(loopD) frameD=0; else{frameD=SF[animD]-1;tSprite->stop();return;} }
+    loadFrame();
 }
+void Dino::idleD() { playD(D_IDLE,true); }
 
-void Dino::percibir()
-{
-    if (!roca || !roca->estaActiva) {
-        reproducirAnimacion(IDLE, true);
+// ── IA ────────────────────────────────────────────────────────
+void Dino::tickIA() {
+    if (!roca) return;
+    if (!roca->estaActiva) {
+        // Patrullar suavemente
+        xPatrulla += dirP * 0.5f;
+        if (xPatrulla>680||xPatrulla<400) dirP*=-1;
+        setPos(xPatrulla, y());
+        playD(D_IDLE,true);
+        yaGolpeo=false; reaccionando=false;
         return;
     }
-
-    float dx = roca->x() - x();
-    float dy = roca->y() - y();
-    float distancia = std::sqrt(dx*dx + dy*dy);
-
-    decidir(distancia, dx, dy);
-}
-
-void Dino::decidir(float distancia, float dx, float dy)
-{
-    Q_UNUSED(dy);
-
-    if (distancia > DISTANCIA_ALERTA) {
-
-        reproducirAnimacion(IDLE, true);
-        return;
-    }
-
-    if (distancia <= DISTANCIA_GOLPE && !yaGolpeo) {
-        desviarConCola();
-        return;
-    }
-
-    if (distancia <= DISTANCIA_ACCION) {
-        if (!saltando && roca->velocidadX > 6.0f) {
-            saltar();
-        } else {
-            correrRapido();
-        }
-        return;
-    }
-
-
-    reproducirAnimacion(ALERTA, false);
-    correrRapido();
-}
-
-void Dino::correrRapido()
-{
-    float dx = roca->x() - x();
-
-    if (std::abs(dx) > DISTANCIA_GOLPE + 20) {
-        float dir = (dx > 0) ? 1.0f : -1.0f;
-        setPos(x() + dir * velocidad, y());
-
-        if (spriteCargado) {
-            QPixmap frame = spritesheet.copy(
-                frameActual * FRAME_W, CAMINAR * FRAME_H, FRAME_W, FRAME_H);
-            if (dir < 0)
-                frame = frame.transformed(QTransform().scale(-1, 1));
-            setPixmap(frame);
-        }
-
-        reproducirAnimacion(CAMINAR, true);
-    }
-}
-
-void Dino::saltar()
-{
-    if (saltando) return;
-    saltando = true;
-    alturaOriginal = y();
-    velocidadSalto = -8.0f;
-
-    reproducirAnimacion(SALTAR, false);
-
-    QTimer *timerSalto = new QTimer(this);
-    connect(timerSalto, &QTimer::timeout, this, [=]() {
-        actualizarSalto();
-        if (!saltando) {
-            timerSalto->stop();
-            timerSalto->deleteLater();
-        }
-    });
-    timerSalto->start(16);
-}
-
-void Dino::actualizarSalto()
-{
-    velocidadSalto += 0.5f;
-    setPos(x(), y() + velocidadSalto);
-
-    if (y() >= alturaOriginal) {
-        setPos(x(), alturaOriginal);
-        saltando = false;
-        velocidadSalto = 0;
-        reproducirAnimacion(IDLE, true);
-    }
-}
-
-void Dino::desviarConCola()
-{
-    yaGolpeo = true;
-    reproducirAnimacion(ATACAR, false);
-
-    float nuevaVel = -(roca->velocidadX * 0.6f);
-    roca->cambiarVelocidad(nuevaVel);
-
-    if (roca->usarGravedad)
-        roca->velocidadY -= 3.0f;
-
-    QTimer::singleShot(2000, this, [=]() { yaGolpeo = false; });
-}
-
-void Dino::mover()
-{
     percibir();
 }
 
-void Dino::avance(int fase)
-{
-    Q_UNUSED(fase);
+void Dino::percibir() {
+    float dx   = roca->x()-x();
+    float dy   = roca->y()-y();
+    float dist = std::sqrt(dx*dx+dy*dy);
+    // Solo reacciona si la roca viene hacia él
+    if (roca->velocidadX > 0.5f && dist < DIST_VER && !yaGolpeo && !reaccionando) {
+        reaccionando=true;
+        tReaccion->start(RETARDO_MS);
+    }
 }
 
-void Dino::actualizarIA()
-{
-    if (roca && roca->estaActiva)
-        percibir();
+void Dino::actuar() {
+    if (!roca||!roca->estaActiva) { reaccionando=false; return; }
+
+    // Lanzar moneda: ¿logra interceptar?
+    double roll = QRandomGenerator::global()->generateDouble();
+    if (roll > PROB_EXITO) {
+        // Falla: Dino se mueve pero no alcanza
+        playD(D_CORRER,false);
+        reaccionando=false; return;
+    }
+
+    float dx   = roca->x()-x();
+    float dist = std::abs(dx);
+
+    if (dist<=DIST_GOLPE)        golpear();
+    else if (dist<=DIST_CORRER)  correr();
+    else                         correr();
+
+    reaccionando=false;
+    QTimer::singleShot(1600,this,[=](){yaGolpeo=false; reaccionando=false;});
 }
+
+void Dino::correr() {
+    float dx  = roca->x()-x();
+    float dir = (dx>0)?1.0f:-1.0f;
+    playD(D_CORRER,true);
+    // Mover en ráfagas
+    QTimer *burst=new QTimer(this); int n=0;
+    connect(burst,&QTimer::timeout,this,[=]()mutable{
+        setPos(x()+dir*VEL_MAX, y()); n++;
+        if(n>35||!roca->estaActiva) burst->stop();
+    });
+    burst->start(16);
+}
+
+void Dino::saltar() {
+    if(saltando) return;
+    saltando=true; yBase=y(); velSalto=-8.5f;
+    playD(D_SALTAR,false);
+    QTimer *ts=new QTimer(this);
+    connect(ts,&QTimer::timeout,this,[=](){
+        tickSalto(); if(!saltando){ts->stop();ts->deleteLater();}
+    });
+    ts->start(16);
+}
+void Dino::tickSalto() {
+    velSalto+=0.48f; setPos(x(),y()+velSalto);
+    if(y()>=yBase){setPos(x(),yBase);saltando=false;velSalto=0;playD(D_IDLE,true);}
+}
+
+void Dino::golpear() {
+    yaGolpeo=true;
+    playD(D_ATACAR,false);
+    // Reduce velocidad entre 35-65% (no para en seco)
+    float red = 0.35f + (float)QRandomGenerator::global()->generateDouble()*0.30f;
+    roca->cambiarVelocidad(roca->velocidadX*(1.0f-red));
+    if(roca->usarGravedad) roca->velocidadY -= 2.0f;
+}
+
+void Dino::mover()  { percibir(); }
+void Dino::avance(int) {}
