@@ -41,6 +41,16 @@ PedroPicapiedra::PedroPicapiedra(QObject *parent) : Personaje(parent) {
     connect(tTemp, &QTimer::timeout, this, &PedroPicapiedra::backIdle);
 
     play(IDLE, true);
+    audioMusica = new QAudioOutput(this);
+    audioFX     = new QAudioOutput(this);
+
+    audioMusica->setVolume(0.25);
+    audioFX->setVolume(0.80);
+    sndGrito = new QMediaPlayer(this);
+    sndGrito->setAudioOutput(audioFX);
+    sndGrito->setSource(
+        QUrl("qrc:/sonidos/grito.mp3"));
+
 }
 
 void PedroPicapiedra::loadRange(QVector<QPixmap> &v, QVector<int> nums) {
@@ -115,6 +125,8 @@ void PedroPicapiedra::gritoGuerra() {
     gritoDisponible = false;
     if (rocaRef) rocaRef->activarSuperRoca();
     play(GRITO, false);
+    sndGrito->setPosition(0);
+    sndGrito->play();
 }
 
 void PedroPicapiedra::lanzarRoca() {

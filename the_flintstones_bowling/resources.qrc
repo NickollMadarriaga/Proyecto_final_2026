@@ -124,6 +124,14 @@
 <file>imagenes/114.png</file>
 <file>imagenes/115.png</file>
 <file>imagenes/116.png</file>
-<file>imagenes/117.png</file>         
+<file>imagenes/117.png</file> 
+<file>sonidos/fondo.mp3</file>
+        <file>sonidos/lanzamiento.mp3</file>
+        <file>sonidos/rugido.mp3</file>
+        <file>sonidos/colision.mp3</file>
+        <file>sonidos/victoria.mp3</file> 
+<file>sonidos/derrota.mp3</file>
+        <file>sonidos/grito.mp3</file>
+         
     </qresource>
 </RCC>

@@ -4,6 +4,8 @@
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 #include <QPointF>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 class PedroPicapiedra;
 class Roca : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
@@ -42,6 +44,9 @@ private:
     double   velLanzamiento;
     double   anguloRad;
     QPointF  origen;
+    QAudioOutput *audioMusica;
+    QAudioOutput *audioFX;
+     QMediaPlayer *sndColision;
 
     float    friccion;
     int      tamBase;

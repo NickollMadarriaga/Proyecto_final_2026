@@ -34,6 +34,34 @@ MainWindow::MainWindow(QWidget *parent)
     juego=new JuegoBolos(this);
     nivelActual=nullptr; indicador=nullptr;
     enMenu=true; esperando=false; modoParabolico=false;
+    audioMusica = new QAudioOutput(this);
+    audioFX     = new QAudioOutput(this);
+
+    audioMusica->setVolume(0.25);
+    audioFX->setVolume(0.80);
+    musicaFondo = new QMediaPlayer(this);
+    musicaFondo->setAudioOutput(audioMusica);
+
+    musicaFondo->setSource(
+        QUrl("qrc:/sonidos/fondo.mp3"));
+    sndLanzamiento = new QMediaPlayer(this);
+    sndLanzamiento->setAudioOutput(audioFX);
+    sndLanzamiento->setSource(
+        QUrl("qrc:/sonidos/lanzamiento.mp3"));
+
+
+    sndVictoria = new QMediaPlayer(this);
+    sndVictoria->setAudioOutput(audioFX);
+    sndVictoria->setSource(
+        QUrl("qrc:/sonidos/victoria.mp3"));
+
+    sndDerrota = new QMediaPlayer(this);
+    sndDerrota->setAudioOutput(audioFX);
+    sndDerrota->setSource(
+        QUrl("qrc:/sonidos/derrota.mp3"));
+
+
+
     angulo=45.0f; // ángulo inicial nivel 2 (45° = tiro óptimo)
 
     lTiros    = mkHUD(this,"🪨 Tiros: 5",  "white",   8,  8,125,30);
@@ -53,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent)
                         "border:2px solid rgba(255,195,60,210);");
     lMsg->setGeometry(130,250,740,54);
     lMsg->setAlignment(Qt::AlignCenter); lMsg->hide();
-
+    musicaFondo->play();
     tVerif=new QTimer(this); tVerif->setSingleShot(true);
     connect(tVerif,&QTimer::timeout,this,&MainWindow::onVerificacion);
 
@@ -66,9 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
     mostrarMenu();
 }
 
-// ═══════════════════════════════════════════════════════════════
-//  MENÚ
-// ═══════════════════════════════════════════════════════════════
+
 void MainWindow::mostrarMenu() {
     enMenu=true; scene->clear();
     if (indicador) { delete indicador; indicador=nullptr; }
@@ -281,7 +307,8 @@ void MainWindow::procesarTiro() {
     float f = pedro ? pedro->fuerzaCargada : 9.0f;
 
     pedro->lanzarRoca();
-
+    sndLanzamiento->setPosition(0);
+    sndLanzamiento->play();
     tiroPendiente = true;
 
     if(indicador){

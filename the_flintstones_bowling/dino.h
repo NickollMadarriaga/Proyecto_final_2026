@@ -34,6 +34,9 @@ private:
     QTimer *tIA;
     QTimer *tTemp;
     QTimer *tReaccion;
+    QAudioOutput *audioMusica;
+    QAudioOutput *audioFX;
+     QMediaPlayer *sndRugido;
 
     bool reaccionando;
     bool yaGolpeo;

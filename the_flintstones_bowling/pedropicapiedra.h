@@ -4,6 +4,8 @@
 #include "roca.h"
 #include <QVector>
 #include <QTimer>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 
 class PedroPicapiedra : public Personaje {
@@ -39,6 +41,10 @@ private:
     bool   looping;
     bool   cargado;
     QTimer *tSprite, *tTemp;
+    QAudioOutput *audioMusica;
+    QAudioOutput *audioFX;
+
+    QMediaPlayer *sndGrito;
 
     void loadRange(QVector<QPixmap>&, QVector<int>);
     void fallback();

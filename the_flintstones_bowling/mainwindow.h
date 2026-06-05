@@ -13,6 +13,8 @@
 #include "nivelbarranco.h"
 #include "pedropicapiedra.h"
 #include "indicadorpunteria.h"
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,7 +44,12 @@ private:
     bool tiroPendiente;
     QLabel *lTiros,*lPuntos,*lNivel,*lGrito,*lPunteria,*lHud,*lMsg;
     QTimer *tVerif;
-
+    QMediaPlayer *musicaFondo;
+    QMediaPlayer *sndLanzamiento;
+    QMediaPlayer *sndVictoria;
+    QMediaPlayer *sndDerrota;
+    QAudioOutput *audioMusica;
+    QAudioOutput *audioFX;
     void mostrarMenu();
     void iniciarJuego();
     void conectar();

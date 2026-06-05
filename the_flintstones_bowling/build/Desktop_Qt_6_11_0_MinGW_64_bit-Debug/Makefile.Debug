@@ -158,6 +158,13 @@ compiler_rcc_clean:
 	-$(DEL_FILE) debug\qrc_resources.cpp
 debug/qrc_resources.cpp: ../../resources.qrc \
 		C:/Qt_nuevo/6.11.0/mingw_64/bin/rcc.exe \
+		../../sonidos/derrota.mp3 \
+		../../sonidos/grito.mp3 \
+		../../sonidos/rugido.mp3 \
+		../../sonidos/lanzamiento.mp3 \
+		../../sonidos/colision.mp3 \
+		../../sonidos/victoria.mp3 \
+		../../sonidos/fondo.mp3 \
 		../../imagenes/72.png \
 		../../imagenes/48.png \
 		../../imagenes/105.png \
@@ -454,6 +461,16 @@ debug/moc_dino.cpp: ../../dino.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QTimer \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qurl.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtGui/QPixmap \
 		debug/moc_predefs.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/bin/moc.exe
@@ -969,6 +986,15 @@ debug/moc_mainwindow.cpp: ../../mainwindow.h \
 		../../roca.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtWidgets/QGraphicsPixmapItem \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		../../totems.h \
 		../../Dino.h \
 		../../personaje.h \
@@ -1144,6 +1170,16 @@ debug/moc_pedropicapiedra.cpp: ../../pedropicapiedra.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QTimer \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qurl.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QVector \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qvector.h \
 		debug/moc_predefs.h \
@@ -1469,6 +1505,16 @@ debug/moc_roca.cpp: ../../roca.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QTimer \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qurl.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		debug/moc_predefs.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/bin/moc.exe
 	C:\Qt_nuevo\6.11.0\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/nicko/OneDrive/Documentos/GitHub/Proyecto_final_2026/the_flintstones_bowling/build/Desktop_Qt_6_11_0_MinGW_64_bit-Debug/debug/moc_predefs.h -IC:/Qt_nuevo/6.11.0/mingw_64/mkspecs/win32-g++ -IC:/Users/nicko/OneDrive/Documentos/GitHub/Proyecto_final_2026/the_flintstones_bowling -IC:/Qt_nuevo/6.11.0/mingw_64/include -IC:/Qt_nuevo/6.11.0/mingw_64/include/QtWidgets -IC:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia -IC:/Qt_nuevo/6.11.0/mingw_64/include/QtGui -IC:/Qt_nuevo/6.11.0/mingw_64/include/QtNetwork -IC:/Qt_nuevo/6.11.0/mingw_64/include/QtCore -I. -IC:/Qt_nuevo/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++ -IC:/Qt_nuevo/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32 -IC:/Qt_nuevo/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward -IC:/Qt_nuevo/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include -IC:/Qt_nuevo/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed -IC:/Qt_nuevo/Tools/mingw1310_64/x86_64-w64-mingw32/include ..\..\roca.h -o debug\moc_roca.cpp
@@ -1819,6 +1865,16 @@ debug/dino.o: ../../dino.cpp ../../dino.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QTimer \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qurl.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtGui/QPixmap \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QRandomGenerator \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qrandom.h \
@@ -1839,7 +1895,6 @@ debug/dino.o: ../../dino.cpp ../../dino.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtGui/qbitmap.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtGui/qevent.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qiodevice.h \
-		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qurl.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtGui/qeventpoint.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtGui/qvector2d.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtGui/qvectornd.h \
@@ -2383,6 +2438,15 @@ debug/main.o: ../../main.cpp ../../mainwindow.h \
 		../../roca.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtWidgets/QGraphicsPixmapItem \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		../../totems.h \
 		../../Dino.h \
 		../../personaje.h \
@@ -2623,6 +2687,15 @@ debug/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		../../roca.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtWidgets/QGraphicsPixmapItem \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		../../totems.h \
 		../../Dino.h \
 		../../personaje.h \
@@ -2825,6 +2898,16 @@ debug/nivel.o: ../../nivel.cpp ../../nivel.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QTimer \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qurl.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		../../totems.h \
 		../../Dino.h \
 		../../personaje.h \
@@ -3001,6 +3084,16 @@ debug/nivelbarranco.o: ../../nivelbarranco.cpp ../../nivelbarranco.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QTimer \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qurl.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		../../totems.h \
 		../../Dino.h \
 		../../personaje.h \
@@ -3182,6 +3275,16 @@ debug/nivelcueva.o: ../../nivelcueva.cpp ../../nivelcueva.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QTimer \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qurl.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		../../totems.h \
 		../../Dino.h \
 		../../personaje.h \
@@ -3352,6 +3455,16 @@ debug/pedropicapiedra.o: ../../pedropicapiedra.cpp ../../pedropicapiedra.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QTimer \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qurl.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QVector \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qvector.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\pedropicapiedra.o ..\..\pedropicapiedra.cpp
@@ -3673,6 +3786,16 @@ debug/roca.o: ../../roca.cpp ../../roca.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QTimer \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/QPointF \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QMediaPlayer \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtCore/qurl.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qtaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt_nuevo/6.11.0/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		../../totems.h \
 		C:/Qt_nuevo/6.11.0/mingw_64/include/QtGui/QPixmap \
 		../../pedropicapiedra.h \

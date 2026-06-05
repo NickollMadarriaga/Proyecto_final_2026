@@ -22,6 +22,16 @@ Dino::Dino(Roca *r, QObject *parent)
     dirP          = 1;
 
     animD         = D_IDLE;
+    audioMusica = new QAudioOutput(this);
+    audioFX     = new QAudioOutput(this);
+
+    audioMusica->setVolume(0.25);
+    audioFX->setVolume(0.80);
+    sndRugido = new QMediaPlayer(this);
+    sndRugido->setAudioOutput(audioFX);
+    sndRugido->setSource(
+        QUrl("qrc:/sonidos/rugido.mp3"));
+
 
 
     QPixmap img(":/imagenes/dino.png");
@@ -121,6 +131,8 @@ void Dino::percibir() {
     float dist = std::sqrt(dx*dx + dy*dy);
     if(roca->estaActiva && dist < DIST_VER && !yaGolpeo && !reaccionando) {
         reaccionando = true;
+        sndRugido->setPosition(0);
+        sndRugido->play();
         tReaccion->start(RETARDO_MS);
     }
 }

@@ -17,6 +17,16 @@ Roca::Roca(QObject *parent) : QObject(parent), QGraphicsPixmapItem() {
     timerP = new QTimer(this);
     timerP->setInterval(30);
     connect(timerP, &QTimer::timeout, this, &Roca::moverParabolico);
+    audioMusica = new QAudioOutput(this);
+    audioFX     = new QAudioOutput(this);
+
+    audioMusica->setVolume(0.25);
+    audioFX->setVolume(0.80);
+
+    sndColision = new QMediaPlayer(this);
+    sndColision->setAudioOutput(audioFX);
+    sndColision->setSource(
+        QUrl("qrc:/sonidos/colision.mp3"));
 }
 
 void Roca::setImagenNormal() {
@@ -133,6 +143,8 @@ void Roca::detectarColisiones() {
             velocidadX *= superRoca ? 0.95f : 0.80f;
             velLanzamiento *= 0.80;
             emit pinoGolpeado();
+            sndColision->setPosition(0);
+            sndColision->play();
         }
     }
 }
