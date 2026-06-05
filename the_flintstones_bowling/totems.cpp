@@ -7,13 +7,13 @@ Totems::Totems(QObject *parent) : QObject(parent), QGraphicsPixmapItem() {
 
     QPixmap img(":/imagenes/Totem.png");
     if (!img.isNull())
-        // Más grandes: 60×120 para que sean bien visibles
+
         setPixmap(img.scaled(60,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
     else {
         QPixmap fb(60,120); fb.fill(QColor(100,70,35)); setPixmap(fb);
     }
 
-    setTransformOriginPoint(30, 120); // pivote en la base para caída realista
+    setTransformOriginPoint(30, 120);
 
     timerAnim = new QTimer(this);
     connect(timerAnim,&QTimer::timeout,this,&Totems::tickAnimacion);

@@ -42,7 +42,9 @@ template <> constexpr inline auto Roca::qt_create_metaobjectdata<qt_meta_tag_ZN4
         "pinoGolpeado",
         "",
         "rocaDetenida",
-        "mover"
+        "rocaFueraPantalla",
+        "moverHorizontal",
+        "moverParabolico"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -50,8 +52,12 @@ template <> constexpr inline auto Roca::qt_create_metaobjectdata<qt_meta_tag_ZN4
         QtMocHelpers::SignalData<void()>(1, 2, QMC::AccessPublic, QMetaType::Void),
         // Signal 'rocaDetenida'
         QtMocHelpers::SignalData<void()>(3, 2, QMC::AccessPublic, QMetaType::Void),
-        // Slot 'mover'
-        QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Signal 'rocaFueraPantalla'
+        QtMocHelpers::SignalData<void()>(4, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'moverHorizontal'
+        QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'moverParabolico'
+        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -77,7 +83,9 @@ void Roca::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         switch (_id) {
         case 0: _t->pinoGolpeado(); break;
         case 1: _t->rocaDetenida(); break;
-        case 2: _t->mover(); break;
+        case 2: _t->rocaFueraPantalla(); break;
+        case 3: _t->moverHorizontal(); break;
+        case 4: _t->moverParabolico(); break;
         default: ;
         }
     }
@@ -85,6 +93,8 @@ void Roca::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         if (QtMocHelpers::indexOfMethod<void (Roca::*)()>(_a, &Roca::pinoGolpeado, 0))
             return;
         if (QtMocHelpers::indexOfMethod<void (Roca::*)()>(_a, &Roca::rocaDetenida, 1))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (Roca::*)()>(_a, &Roca::rocaFueraPantalla, 2))
             return;
     }
 }
@@ -110,14 +120,14 @@ int Roca::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 5;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 5)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 3;
+        _id -= 5;
     }
     return _id;
 }
@@ -132,5 +142,11 @@ void Roca::pinoGolpeado()
 void Roca::rocaDetenida()
 {
     QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
+}
+
+// SIGNAL 2
+void Roca::rocaFueraPantalla()
+{
+    QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
 }
 QT_WARNING_POP

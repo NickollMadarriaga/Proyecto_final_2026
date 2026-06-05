@@ -1,9 +1,11 @@
 #include "nivel.h"
 
+
 Nivel::Nivel(QGraphicsScene *scene)
 {
     this->scene = scene;
     roca = nullptr;
+    dino = nullptr;
     totemsRestantes = 0;
     tirosRestantes  = 5;
 }
@@ -26,10 +28,12 @@ bool Nivel::nivelCompletado()
         if (!totems->estaDerrribado())
             return false;
     }
+
     return true;
 }
 
 void Nivel::resetearRoca()
 {
-    if (roca) roca->resetear(50, scene->height() - 140);
+    if (roca)
+        roca->resetear(rocaIniX, rocaIniY);
 }

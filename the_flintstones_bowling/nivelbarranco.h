@@ -12,11 +12,13 @@ public:
     void configurarFisica() override;
     void actualizarFisica() override;
     void avance(int fase)   override;
+
     PedroPicapiedra *fred;
     Dino            *dino;
+
 private:
     QVector<QRectF> plats;
     void mkPlataformas();
     void mkTotems();
 };
-#endif //NIVELBARRANCO_H
+#endif
