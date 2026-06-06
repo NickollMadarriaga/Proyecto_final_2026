@@ -1,4 +1,5 @@
 #include "pedropicapiedra.h"
+#include "roca.h"
 
 PedroPicapiedra::PedroPicapiedra(QObject *parent) : Personaje(parent) {
     fuerzaCargada    = 9.0f;

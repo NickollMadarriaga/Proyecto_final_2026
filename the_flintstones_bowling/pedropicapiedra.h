@@ -1,12 +1,11 @@
 #ifndef PEDROPICAPIEDRA_H
 #define PEDROPICAPIEDRA_H
 #include "personaje.h"
-#include "roca.h"
 #include <QVector>
 #include <QTimer>
 #include <QMediaPlayer>
 #include <QAudioOutput>
-
+class Roca;
 
 class PedroPicapiedra : public Personaje {
     Q_OBJECT
