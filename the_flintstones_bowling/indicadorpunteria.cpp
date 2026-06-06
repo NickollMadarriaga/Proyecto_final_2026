@@ -26,7 +26,10 @@ void IndicadorPunteria::agregarPunto(float x, float y, int idx, int total) {
     puntos.append(dot);
 }
 
+<<<<<<< Updated upstream
 // ── NIVEL 1: rectilíneo con fricción ─────────────────────────
+=======
+>>>>>>> Stashed changes
 void IndicadorPunteria::mostrarRecto(float rocaX, float rocaY, float fuerza) {
     limpiar();
     float sx = rocaX + 55.0f;
@@ -44,6 +47,7 @@ void IndicadorPunteria::mostrarRecto(float rocaX, float rocaY, float fuerza) {
     }
 }
 
+<<<<<<< Updated upstream
 // ── NIVEL 2: parabólico ───────────────────────────────────────
 // Misma física EXACTA que Roca::lanzarParabolico / moverParabolico:
 //   velLanzamiento = fuerza * 40.0
@@ -53,18 +57,25 @@ void IndicadorPunteria::mostrarRecto(float rocaX, float rocaY, float fuerza) {
 //   vy = -velLanzamiento * sin(angulo)   ← negativo = sube en Qt
 //   dx = vx * t
 //   dy = vy * t + 0.5 * g * t * t
+=======
+
+>>>>>>> Stashed changes
 
 void IndicadorPunteria::mostrarParabolico(float rocaX, float rocaY,
                                           float fuerza, float anguloGrados) {
     limpiar();
 
+<<<<<<< Updated upstream
     // EXACTAMENTE iguales a Roca::lanzarParabolico y moverParabolico
+=======
+>>>>>>> Stashed changes
     const double G  = 9.8;
     const double DT = 0.030;
     double velLanzamiento = fuerza * 40.0;
 
     double angRad = anguloGrados * M_PI / 180.0;
     double vx     =  velLanzamiento * std::cos(angRad);
+<<<<<<< Updated upstream
     double vy     = -velLanzamiento * std::sin(angRad); // negativo = sube
 
     // Origen: misma posición exacta que usa la roca (x(), y())
@@ -73,6 +84,13 @@ void IndicadorPunteria::mostrarParabolico(float rocaX, float rocaY,
 
     // Simular la trayectoria punto a punto
     // Cada punto = 8 ticks adelante (8 * 0.030 = 0.24s entre puntos)
+=======
+    double vy     = -velLanzamiento * std::sin(angRad);
+
+    double ox = rocaX;
+    double oy = rocaY;
+
+>>>>>>> Stashed changes
     for (int i = 0; i < 20; i++) {
         double t  = (i + 1) * 8.0 * DT;
         double nx = ox + vx * t;
