@@ -1,26 +1,57 @@
 #ifndef ROCA_H
 #define ROCA_H
-
 #include <QObject>
-#include <QGraphicsEllipseItem>
+#include <QGraphicsPixmapItem>
 #include <QTimer>
-
-class Roca : public QObject, public QGraphicsEllipseItem
-{
+#include <QPointF>
+#include <QMediaPlayer>
+#include <QAudioOutput>
+class PedroPicapiedra;
+class Roca : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
-
 public:
-    explicit Roca();
+    explicit Roca(QObject *parent = nullptr);
 
-    void lanzar(float velocidad);
+    // Nivel 1: horizontal con fricción
+    void lanzar(float vx);
 
-public slots:
-    void mover();
+    // Nivel 2: parabólico
+    void lanzarParabolico( PedroPicapiedra* pedro, float anguloGrados);
+
+    void activarSuperRoca();
+    void cambiarVelocidad(float v);
+    void resetear(float px, float py);
+
+    float velocidadX, velocidadY;
+    bool  estaActiva, superRoca, usarGravedad;
+    float sueloY;
+
+signals:
+    void pinoGolpeado();
+    void rocaDetenida();
+    void rocaFueraPantalla();
+
+private slots:
+    void moverHorizontal();   // nivel 1
+    void moverParabolico();   // nivel 2
 
 private:
-    float velocidadX;
+    QTimer  *timerH;          // timer nivel 1
+    QTimer  *timerP;          // timer nivel 2
 
-    QTimer *timer;
+    // Para movimiento parabólico
+    double   tiempo;
+    double   velLanzamiento;
+    double   anguloRad;
+    QPointF  origen;
+    QAudioOutput *audioMusica;
+    QAudioOutput *audioFX;
+     QMediaPlayer *sndColision;
+
+    float    friccion;
+    int      tamBase;
+
+    void detectarColisiones();
+    void setImagenNormal();
 };
-
-#endif // ROCA_H
+#endif

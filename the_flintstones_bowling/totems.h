@@ -1,12 +1,21 @@
 #ifndef TOTEMS_H
 #define TOTEMS_H
+#include <QObject>
+#include <QGraphicsPixmapItem>
+#include <QTimer>
 
-#include <QGraphicsRectItem>
-
-class Totems : public QGraphicsRectItem
-{
+class Totems : public QObject, public QGraphicsPixmapItem {
+    Q_OBJECT
 public:
-    Totems();
+    explicit Totems(QObject *parent = nullptr);
+    void derribar();
+    bool estaDerrribado() const { return derribado; }
+    bool derribado;
+private slots:
+    void tickAnimacion();
+private:
+    QTimer *timerAnim;
+    float   angulo;
 };
 
 #endif // TOTEMS_H
